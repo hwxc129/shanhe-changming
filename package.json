@@ -15,7 +15,8 @@
     "check": "tsc --noEmit",
     "test": "node --experimental-strip-types --test tests/rules.test.ts",
     "build:pages": "vite build --config vite.pages.config.ts && node scripts/finalize-pages.mjs",
-    "dev:pages": "vite --config vite.pages.config.ts --host 127.0.0.1 --port 5174"
+    "dev:pages": "vite --config vite.pages.config.ts --host 127.0.0.1 --port 5174",
+    "test:http": "node scripts/test-http-isolated.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
-const origin=process.env.TEST_ORIGIN||'http://127.0.0.1:5173';
+assert.equal(process.env.MEMORIAL_ISOLATED_TEST, 'yes', 'Run npm run test:http: tests must use their own temporary database.');
+const origin=process.env.TEST_ORIGIN;
+assert.ok(origin && new URL(origin).port !== '5173', 'Refuse to write to the interactive preview.');
 assert.ok(['localhost','127.0.0.1','[::1]'].includes(new URL(origin).hostname),'Write tests are restricted to local development.');
 async function req(path,options={}){const response=await fetch(origin+path,{...options,headers:{Origin:origin,...options.headers}});const text=await response.text();let data;try{data=JSON.parse(text);}catch{data={error:text.slice(0,100)};}return{status:response.status,headers:response.headers,data};}
 const headers=cookie=>({'Content-Type':'application/json',Cookie:cookie});

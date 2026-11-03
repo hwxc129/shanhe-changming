@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowRight, Check, ChevronDown, Flame, Search, X } from "lucide-react";
 import { PERIODS } from "../lib/rules";
 import { readCatalog } from "../lib/catalog";
-import { request, post, siteHref } from "../lib/api-client";
+import { request, post, siteHref, backupSite } from "../lib/api-client";
 
 type Catalog = { data: { id: string; display_name: string }[]; total: number; next_cursor: string | null; release_id: string };
 type Stats = { today_count: number; total_count: number; business_date: string; as_of: string };
@@ -19,9 +19,12 @@ export default function Memorial({ initialCatalog, initialStats }: { initialCata
   const [catalog, setCatalog] = useState(initialCatalog); const [search, setSearch] = useState(""); const [period, setPeriod] = useState("all");
   const [loading, setLoading] = useState(false); const [catalogError, setCatalogError] = useState(initialCatalog ? "" : "目录暂时无法载入，请重试。");
   const pending = useRef<string | null>(null); const generation = useRef(0); const initial = useRef(true);
+  const preparing = useRef(false);
   const refreshStats = useCallback(async () => { try { setStats(await request<Stats>("/api/v1/candles/stats")); } catch { /* Preserve the last confirmed snapshot. */ } }, []);
   const refreshMe = useCallback(async () => { const state = await request<Me>("/api/v1/candles/me"); setMe(state); return state; }, []);
   const prepare = useCallback(async () => {
+    if (preparing.current) return;
+    preparing.current = true;
     async function initialize() {
       let state = await request<Me>("/api/v1/candles/me");
       if (!state.ready) { await post("/api/v1/visitors"); state = await request<Me>("/api/v1/candles/me"); }
@@ -29,15 +32,18 @@ export default function Memorial({ initialCatalog, initialStats }: { initialCata
     }
     try { if (navigator.locks) await navigator.locks.request("shanhe-visitor", initialize); else await initialize(); setError(""); }
     catch (e) { setError((e as Error).message); }
+    finally { preparing.current = false; }
   }, []);
   useEffect(() => { void prepare(); void refreshStats(); }, [prepare, refreshStats]);
   useEffect(() => {
-    const onFocus = () => { if (!document.hidden) { void refreshMe().catch(() => {}); void refreshStats(); } };
+    const onFocus = () => { if (!document.hidden) { if (!me?.ready) void prepare(); else void refreshMe().catch(() => {}); void refreshStats(); } };
     const channel = typeof BroadcastChannel === "function" ? new BroadcastChannel("shanhe-candle") : null;
     if (channel) channel.onmessage = onFocus;
     const timer = setInterval(onFocus, 30_000); window.addEventListener("focus", onFocus); document.addEventListener("visibilitychange", onFocus);
-    return () => { clearInterval(timer); channel?.close(); window.removeEventListener("focus", onFocus); document.removeEventListener("visibilitychange", onFocus); };
-  }, [refreshMe, refreshStats]);
+    const onOnline = () => { void prepare(); void refreshStats(); };
+    window.addEventListener("online", onOnline);
+    return () => { clearInterval(timer); channel?.close(); window.removeEventListener("focus", onFocus); document.removeEventListener("visibilitychange", onFocus); window.removeEventListener("online", onOnline); };
+  }, [refreshMe, refreshStats, prepare, me?.ready]);
   useEffect(() => { if (!me?.next_reset_at) return; const delay = Math.max(100, Date.parse(me.next_reset_at) - Date.now() + 500); const timer = setTimeout(() => { setNotice(""); pending.current = null; void refreshMe().catch(() => {}); void refreshStats(); }, delay); return () => clearTimeout(timer); }, [me?.next_reset_at, refreshMe, refreshStats]);
   const light = async () => {
     if (busy) return; if (!me?.ready) { await prepare(); return; } if (!me.can_light) return;
@@ -79,8 +85,8 @@ export default function Memorial({ initialCatalog, initialStats }: { initialCata
         <div className="hero-vignette"/><MountainScene />
         <div className="hero-inner"><div className="hero-copy"><div className="eyebrow"><span/>铭记来路 · 守望和平</div><h1 id="hero-title">山河长明<span>致敬英雄</span></h1><p className="hero-description">致敬中国历史上的英雄，<br/>缅怀为国家和人民作出牺牲的人们。</p>
           <div className="candle-action"><button className={`light-button ${isLit ? "completed" : ""}`} onClick={light} disabled={busy || !me?.ready || !me.can_light}>{isLit ? <Check size={18}/> : <Flame size={19} strokeWidth={1.5}/>}<span>{buttonLabel}</span>{!isLit && <ArrowRight size={17}/>}</button><span className="action-caption">每日一烛，寄托思念</span></div>
-          <p className={`candle-feedback ${error ? "has-error" : ""}`} role="status" aria-live="polite">{error || notice || (isLit ? "你的敬意已被记录，明日可再次点亮。" : "无需登录 · 同一浏览器每天一次")}{error && <button className="text-button" onClick={() => { void prepare(); }}>重试</button>}</p>
-          <div className="memorial-stats" aria-label="点烛统计"><div><span className="stat-value">{stats ? stats.today_count.toLocaleString("zh-CN") : "—"}</span><span>今日点亮<span className="stat-unit"> / 次</span></span></div><div><span className="stat-value">{stats ? stats.total_count.toLocaleString("zh-CN") : "—"}</span><span>累计点亮<span className="stat-unit"> / 次</span></span></div><p>每一份敬意，都值得被记得。</p></div>
+          <p className={`candle-feedback ${error ? "has-error" : ""}`} role="status" aria-live="polite">{error || notice || (isLit ? "你的敬意已被记录，明日可再次点亮。" : "无需登录 · 同一浏览器每天一次")}{error && <><button className="text-button" onClick={() => { void prepare(); void refreshStats(); }}>重新连接</button><a className="text-button" href={backupSite} target="_blank" rel="noopener noreferrer">备用站点</a></>}</p>
+          <div className="memorial-stats" aria-label="点烛统计"><div><span className="stat-value">{stats ? stats.today_count.toLocaleString("zh-CN") : "—"}</span><span>今日点亮<span className="stat-unit"> / 次</span></span></div><div><span className="stat-value">{stats ? stats.total_count.toLocaleString("zh-CN") : "—"}</span><span>累计点亮<span className="stat-unit"> / 次</span></span></div><p>{import.meta.env.DEV ? "本地预览数据，与公网独立。" : "每一份敬意，都值得被记得。"}</p></div>
         </div><div className="hero-art"><Candle lit={!!isLit}/><span className="art-caption"><span/> 一烛微光，山河共念 <span/></span></div></div>
         <a className="scroll-note" href="#events"><span>向下 · 铭记历史</span><ArrowDown size={14}/></a>
         <span className="hero-coordinate">以铭记，致敬不朽。</span>

@@ -6,6 +6,7 @@ import { createHash } from "node:crypto";
 import { businessDayAt, nextDayResetAt, normalSearch } from "../lib/rules.ts";
 import { readCatalog, CATALOG_RELEASE } from "../lib/catalog.ts";
 import { allowedPublicOrigin, apiPreflight, withPublicCors } from "../lib/public-api.ts";
+import { fetchJson, ConnectionError } from "../lib/http-client.ts";
 
 test("业务日期在北京时间零点切换，不受服务器时区影响",()=>{
   assert.equal(businessDayAt(Date.parse("2026-11-03T15:59:59.999Z")),"2026-11-03");
@@ -66,4 +67,38 @@ test("旧后台、建议表单和修改接口从路由树中移除",()=>{
   for(const path of ["app/admin/page.tsx","app/admin/panel.tsx","app/api/admin/route.ts","app/corrections/page.tsx","app/api/v1/corrections/route.ts"]){
     assert.throws(()=>readFileSync(new URL("../"+path,import.meta.url)));
   }
+});
+
+test("首次读取发生Load failed后自动重连，不直接显示浏览器英文错误",async()=>{
+  let calls=0;
+  const fetcher: typeof fetch=async()=>{calls++;if(calls===1)throw new TypeError("Load failed");return Response.json({ready:true});};
+  assert.deepEqual(await fetchJson("https://example.invalid/state",{}, {fetcher,retryDelayMs:0}),{ready:true});
+  assert.equal(calls,2);
+});
+test("失败的点烛写入不自动重发",async()=>{
+  let calls=0;
+  const fetcher:typeof fetch=async()=>{calls++;throw new TypeError("Load failed");};
+  await assert.rejects(fetchJson("https://example.invalid/candles",{method:"POST"},{fetcher,retryDelayMs:0}),
+    (error:unknown)=>error instanceof ConnectionError&&error.kind==="network"&&!error.message.includes("Load failed"));
+  assert.equal(calls,1);
+});
+test("连接超时有明确提示，避免初始化永久等待",async()=>{
+  const fetcher:typeof fetch=async(_url,options)=>new Promise<Response>((_resolve,reject)=>{
+    options?.signal?.addEventListener("abort",()=>reject(new DOMException("aborted","AbortError")),{once:true});
+  });
+  await assert.rejects(fetchJson("https://example.invalid/visitors",{method:"POST"},{fetcher,timeoutMs:5}),
+    (error:unknown)=>error instanceof ConnectionError&&error.kind==="timeout");
+});
+test("权限和业务错误保留服务端提示，且不重复读取",async()=>{
+  let calls=0;
+  const fetcher:typeof fetch=async()=>{calls++;return Response.json({error:"请允许必要的浏览器存储。"},{status:401});};
+  await assert.rejects(fetchJson("https://example.invalid/state",{}, {fetcher,retryDelayMs:0}),/请允许必要的浏览器存储/);
+  assert.equal(calls,1);
+});
+test("非JSON服务响应不当作成功，读取最多尝试三次",async()=>{
+  let calls=0;
+  const fetcher:typeof fetch=async()=>{calls++;return new Response("gateway page",{headers:{"content-type":"text/html"}});};
+  await assert.rejects(fetchJson("https://example.invalid/state",{}, {fetcher,retryDelayMs:0}),
+    (error:unknown)=>error instanceof ConnectionError&&error.kind==="response");
+  assert.equal(calls,3);
 });
