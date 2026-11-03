@@ -4,7 +4,7 @@ import { DatabaseSync } from "node:sqlite";
 import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { businessDayAt, nextDayResetAt, normalSearch } from "../lib/rules.ts";
-import { readCatalog, CATALOG_RELEASE } from "../lib/catalog.ts";
+import { readCatalog, filterCatalog, catalogOverview, CATALOG_RELEASE } from "../lib/catalog.ts";
 import { allowedPublicOrigin, apiPreflight, withPublicCors } from "../lib/public-api.ts";
 import { fetchJson, ConnectionError } from "../lib/http-client.ts";
 
@@ -25,17 +25,44 @@ test("固定目录与发布锁的数量、摘要一致，只保留公开编目�
   const lock=JSON.parse(readFileSync(new URL("../data/catalog.lock.json",import.meta.url),"utf8"));
   const records=JSON.parse(file.toString());
   assert.equal(createHash("sha256").update(file).digest("hex"),lock.sha256);
-  assert.equal(records.length,27);assert.equal(records.length,lock.count);
-  for(const e of records)assert.deepEqual(Object.keys(e).sort(),["aliases","endYear","id","name","startYear"]);
+  assert.ok(records.length>=100);assert.equal(records.length,lock.count);
+  const fields=["aliases","category","dateLabel","datePrecision","endDate","endYear","id","level","name","parentName","region","startDate","startYear"].sort();
+  for(const e of records){
+    assert.deepEqual(Object.keys(e).sort(),fields);
+    assert.equal(e.startYear,Number(e.startDate.slice(0,4)));
+    assert.equal(e.endYear,Number((e.endDate||e.startDate).slice(0,4)));
+    assert.match(e.startDate,/^\d{4}(-\d{2})?(-\d{2})?$/);
+    assert.equal(e.datePrecision,({4:"year",7:"month",10:"day"} as Record<number,string>)[e.startDate.length]);
+    assert.ok(e.dateLabel&&e.region&&e.name);
+    assert.ok(!e.endDate||e.endDate>=e.startDate);
+  }
+  assert.doesNotMatch(file.toString(),/https?:|originFamily|evidenceNote|reviewNotes|sources/);
 });
 test("分页覆盖固定目录，返回数据被调用者修改不会改变目录",()=>{
   const all=[];let cursor="";
   do{const page=readCatalog("","all",cursor,7);all.push(...page.data);cursor=page.next_cursor||"";assert.equal(page.release_id,CATALOG_RELEASE);}while(cursor);
-  assert.equal(all.length,27);assert.equal(new Set(all.map(e=>e.id)).size,27);
+  const count=catalogOverview().total;assert.equal(all.length,count);assert.equal(new Set(all.map(e=>e.id)).size,count);
   const original=all[0].display_name;all[0].display_name="客户端篡改";
   assert.equal(readCatalog().data[0].display_name,original);
-  assert.equal(readCatalog("第二次长沙").total,0);
+  assert.equal(readCatalog("第二次长沙").data[0].id,"changsha-second-1941");
+  assert.equal(readCatalog("喜峰口").total,0);
   assert.throws(()=>readCatalog("","all","unknown-id"),RangeError);
+});
+test("时间线筛选覆盖年份、类型、地区和跨年事件，不把年精度伪装成日期",()=>{
+  const item=(id:string)=>filterCatalog().find(e=>e.id===id)!;
+  assert.equal(item("lugou-1937").date_label,"1937年7月7日");
+  assert.equal(item("port-arthur-massacre").start_date,"1894");
+  assert.equal(item("port-arthur-massacre").date_precision,"year");
+  assert.equal(item("amethyst-incident-1949").end_date,null);
+  assert.match(item("amethyst-incident-1949").date_label,/起$/);
+  assert.ok(filterCatalog({period:"1946-1949"}).some(e=>e.id==="amethyst-incident-1949"));
+  assert.ok(filterCatalog({year:"1942"}).every(e=>e.start_date.startsWith("1942")));
+  assert.ok(filterCatalog({category:"条约交涉"}).every(e=>e.category==="条约交涉"));
+  assert.ok(filterCatalog({query:"宁波"}).some(e=>e.id==="ningbo-bacteriological-attack-1940"));
+  assert.ok(filterCatalog({period:"1937-1945"}).some(e=>e.id==="changsha-third-1941"));
+  assert.equal(filterCatalog({query:"不存在的历史条目"}).length,0);
+  const originalIds=["first-opium-war","battle-of-humen-1841","sanyuanli-resistance","second-opium-war","burning-yuanmingyuan","japan-taiwan-expedition-1874","sino-french-war","zhennanguan-victory","first-sino-japanese-war","port-arthur-massacre","yellow-sea-battle-1894","eight-nation-invasion","gyantse-resistance-1904","qingdao-1914","jinan-1928","mukden-1931","shanghai-1932","lugou-1937","nanjing-massacre-1937","pingxingguan-1937","shanghai-1937","sihang-1937","taierzhuang-1938","wuhan-1938","changsha-first-1939","hundred-regiments-1940","changde-1943"];
+  for(const id of originalIds)assert.ok(item(id),id);
 });
 function database(){const db=new DatabaseSync(":memory:");db.exec(readFileSync(new URL("../drizzle/0000_stiff_iron_fist.sql",import.meta.url),"utf8"));return db;}
 test("每日唯一约束允许跨日和不同访客，失效流水不释放当日资格",()=>{

@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const catalogLock=JSON.parse(readFileSync(new URL('../data/catalog.lock.json',import.meta.url),'utf8'));
 assert.equal(process.env.MEMORIAL_ISOLATED_TEST, 'yes', 'Run npm run test:http: tests must use their own temporary database.');
 const origin=process.env.TEST_ORIGIN;
 assert.ok(origin && new URL(origin).port !== '5173', 'Refuse to write to the interactive preview.');
@@ -19,10 +21,12 @@ const key=crypto.randomUUID();const first=await req('/api/v1/candles',{method:'P
 const others=await Promise.all(Array.from({length:12},async()=>{const c=await identity();return req('/api/v1/candles',{method:'POST',headers:headers(c),body:JSON.stringify({idempotency_key:crypto.randomUUID()})});}));assert.ok(others.every(r=>r.data.result==='created'));
 assert.equal((await req('/api/v1/candles/stats')).data.total_count-before,13);
 let cursor='',release='',items=[];
-do{const p=new URLSearchParams({limit:'7'});if(cursor){p.set('cursor',cursor);p.set('release',release);}const r=await req('/api/v1/events?'+p);assert.equal(r.status,200);items.push(...r.data.data);cursor=r.data.next_cursor;release=r.data.release_id;for(const e of r.data.data)assert.deepEqual(Object.keys(e).sort(),['display_name','id']);}while(cursor);
-assert.equal(new Set(items.map(e=>e.id)).size,27);assert.equal(items.length,27);
+do{const p=new URLSearchParams({limit:'7'});if(cursor){p.set('cursor',cursor);p.set('release',release);}const r=await req('/api/v1/events?'+p);assert.equal(r.status,200);items.push(...r.data.data);cursor=r.data.next_cursor;release=r.data.release_id;for(const e of r.data.data)assert.deepEqual(Object.keys(e).sort(),['category','date_label','date_precision','display_name','end_date','id','level','parent_name','region','start_date']);}while(cursor);
+assert.equal(new Set(items.map(e=>e.id)).size,catalogLock.count);assert.equal(items.length,catalogLock.count);
 assert.equal((await req('/api/v1/events?q='+encodeURIComponent('盧溝橋'))).data.data[0].display_name,'七七事变');
-assert.equal((await req('/api/v1/events?q='+encodeURIComponent('第二次长沙'))).data.total,0);
+assert.equal((await req('/api/v1/events?q='+encodeURIComponent('喜峰口'))).data.total,0);
+const year1949=await req('/api/v1/events?year=1949');assert.ok(year1949.data.data.some(e=>e.id==='amethyst-incident-1949'));assert.ok(year1949.data.data.every(e=>e.start_date.startsWith('1949')));
+const treaties=await req('/api/v1/events?category='+encodeURIComponent('条约交涉'));assert.ok(treaties.data.total>0);assert.ok(treaties.data.data.every(e=>e.category==='条约交涉'));
 assert.equal((await req('/api/v1/events?release=stale')).status,409);
 const publicOrigin='https://hwxc129.github.io';
 const preflight=await req('/api/v1/candles',{method:'OPTIONS',headers:{Origin:publicOrigin,'Access-Control-Request-Method':'POST','Access-Control-Request-Headers':'authorization,content-type'}});assert.equal(preflight.status,204);assert.equal(preflight.headers.get('access-control-allow-origin'),publicOrigin);
@@ -32,4 +36,4 @@ assert.equal((await req('/api/v1/candles/me',{headers:remoteHeaders})).data.can_
 const lit=await req('/api/v1/candles',{method:'POST',headers:remoteHeaders,body:JSON.stringify({idempotency_key:crypto.randomUUID()})});assert.equal(lit.status,200);assert.equal(lit.data.result,'created');assert.equal(lit.headers.get('access-control-allow-origin'),publicOrigin);
 assert.equal((await req('/api/v1/candles/me',{headers:remoteHeaders})).data.today_state,'lit');
 assert.equal((await req('/api/v1/candles/stats')).data.total_count-before,14);
-console.log(JSON.stringify({httpChecks:'passed',sameBrowserConcurrent:100,catalogItems:27,adminRoutes:'removed',catalogWrites:'405',crossOriginCandle:'passed',thirdPartyCookies:'not required',csrf:'blocked',pagination:'passed'}));
+console.log(JSON.stringify({httpChecks:'passed',sameBrowserConcurrent:100,catalogItems:catalogLock.count,adminRoutes:'removed',catalogWrites:'405',crossOriginCandle:'passed',thirdPartyCookies:'not required',csrf:'blocked',pagination:'passed'}));

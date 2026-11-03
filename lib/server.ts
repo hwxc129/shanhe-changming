@@ -78,6 +78,6 @@ export async function lightCandle(request: Request, requestKey: string) {
 }
 
 
-export async function publicCatalog(q = "", period = "all", cursor = "", limit = 12) {
-  return readCatalog(q, period, cursor, limit);
+export async function publicCatalog(q = "", period = "all", cursor = "", limit = 24, category = "all", year = "all") {
+  return readCatalog(q, period, cursor, limit, category, year);
 }

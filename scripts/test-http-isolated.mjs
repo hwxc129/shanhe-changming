@@ -20,7 +20,7 @@ function launch(args, extra = {}) {
     child.once("error", reject);
     child.once("close", (code, signal) => resolve({ code, signal, log }));
   });
-  return { child, done };
+  return { child, done, recentLog: () => log };
 }
 async function unusedPort() {
   const server = createServer();
@@ -39,14 +39,14 @@ try {
   const origin = `http://127.0.0.1:${port}`;
   service = launch([...cli, "dev", "--local", "--config", config, "--persist-to", isolated,
     "--ip", "127.0.0.1", "--port", String(port), "--inspector-port", "0", "--log-level", "error"]);
-  const deadline = Date.now() + 30_000;
+  const deadline = Date.now() + 120_000;
   let ready = false;
   while (Date.now() < deadline && service.child.exitCode === null) {
-    try { ready = (await fetch(origin + "/api/v1/candles/stats", { signal: AbortSignal.timeout(1000) })).ok; } catch { /* Wait for this owned test server. */ }
+    try { ready = (await fetch(origin + "/api/v1/candles/stats", { signal: AbortSignal.timeout(2500) })).ok; } catch { /* Wait for this owned test server. */ }
     if (ready) break;
     await new Promise(resolve => setTimeout(resolve, 250));
   }
-  if (!ready) throw new Error("独立测试服务未能启动。");
+  if (!ready) throw new Error("独立测试服务未能启动：\n" + service.recentLog());
   const empty = await (await fetch(origin + "/api/v1/candles/stats")).json();
   if (empty.total_count !== 0) throw new Error("独立测试数据库不是空库，拒绝执行写入测试。");
   const check = await launch([join(root, "tests/http-check.mjs")], {
