@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+const origin=process.env.TEST_ORIGIN||'http://127.0.0.1:5173';
+assert.ok(['localhost','127.0.0.1','[::1]'].includes(new URL(origin).hostname),'Write tests are restricted to local development.');
+async function req(path,options={}){const response=await fetch(origin+path,{...options,headers:{Origin:origin,...options.headers}});const text=await response.text();let data;try{data=JSON.parse(text);}catch{data={error:text.slice(0,100)};}return{status:response.status,headers:response.headers,data};}
+const headers=cookie=>({'Content-Type':'application/json',Cookie:cookie});
+async function identity(){const r=await req('/api/v1/visitors',{method:'POST'});assert.equal(r.status,200);const cookie=r.headers.get('set-cookie')?.split(';')[0];assert.ok(cookie);return cookie;}
+const before=(await req('/api/v1/candles/stats')).data.total_count;
+for(const path of ['/admin','/api/admin','/corrections','/api/v1/corrections'])for(const method of ['GET','POST'])assert.equal((await req(path,{method})).status,404,path+' '+method);
+for(const method of ['POST','PUT','PATCH','DELETE'])assert.equal((await req('/api/v1/events',{method,headers:{'Content-Type':'application/json'},body:'{"name":"tampered"}'})).status,405,method);
+const missing=await req('/api/v1/candles',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({idempotency_key:crypto.randomUUID()})});assert.equal(missing.status,401);
+assert.equal((await req('/api/v1/visitors',{method:'POST',headers:{Origin:'https://foreign.invalid'}})).status,403);
+const cookie=await identity();assert.equal((await req('/api/v1/candles/me',{headers:{Cookie:cookie}})).data.can_light,true);
+const concurrent=await Promise.all(Array.from({length:100},()=>req('/api/v1/candles',{method:'POST',headers:headers(cookie),body:JSON.stringify({idempotency_key:crypto.randomUUID()})})));
+assert.ok(concurrent.every(r=>r.status===200));assert.equal(concurrent.filter(r=>r.data.result==='created').length,1);assert.equal(new Set(concurrent.map(r=>r.data.record_id)).size,1);
+assert.equal((await req('/api/v1/candles/me',{headers:{Cookie:cookie}})).data.today_state,'lit');
+const key=crypto.randomUUID();const first=await req('/api/v1/candles',{method:'POST',headers:headers(cookie),body:JSON.stringify({idempotency_key:key})});const retry=await req('/api/v1/candles',{method:'POST',headers:headers(cookie),body:JSON.stringify({idempotency_key:key})});assert.equal(first.data.record_id,retry.data.record_id);
+const others=await Promise.all(Array.from({length:12},async()=>{const c=await identity();return req('/api/v1/candles',{method:'POST',headers:headers(c),body:JSON.stringify({idempotency_key:crypto.randomUUID()})});}));assert.ok(others.every(r=>r.data.result==='created'));
+assert.equal((await req('/api/v1/candles/stats')).data.total_count-before,13);
+let cursor='',release='',items=[];
+do{const p=new URLSearchParams({limit:'7'});if(cursor){p.set('cursor',cursor);p.set('release',release);}const r=await req('/api/v1/events?'+p);assert.equal(r.status,200);items.push(...r.data.data);cursor=r.data.next_cursor;release=r.data.release_id;for(const e of r.data.data)assert.deepEqual(Object.keys(e).sort(),['display_name','id']);}while(cursor);
+assert.equal(new Set(items.map(e=>e.id)).size,27);assert.equal(items.length,27);
+assert.equal((await req('/api/v1/events?q='+encodeURIComponent('盧溝橋'))).data.data[0].display_name,'七七事变');
+assert.equal((await req('/api/v1/events?q='+encodeURIComponent('第二次长沙'))).data.total,0);
+assert.equal((await req('/api/v1/events?release=stale')).status,409);
+const publicOrigin='https://hwxc129.github.io';
+const preflight=await req('/api/v1/candles',{method:'OPTIONS',headers:{Origin:publicOrigin,'Access-Control-Request-Method':'POST','Access-Control-Request-Headers':'authorization,content-type'}});assert.equal(preflight.status,204);assert.equal(preflight.headers.get('access-control-allow-origin'),publicOrigin);
+const remote=await req('/api/v1/visitors',{method:'POST',headers:{Origin:publicOrigin}});assert.equal(remote.status,200);assert.match(remote.data.visitor_token,/^[a-f0-9]{64}$/);assert.equal(remote.headers.get('set-cookie'),null);
+const remoteHeaders={Origin:publicOrigin,Authorization:'Bearer '+remote.data.visitor_token,'Content-Type':'application/json','Sec-Fetch-Site':'cross-site'};
+assert.equal((await req('/api/v1/candles/me',{headers:remoteHeaders})).data.can_light,true);
+const lit=await req('/api/v1/candles',{method:'POST',headers:remoteHeaders,body:JSON.stringify({idempotency_key:crypto.randomUUID()})});assert.equal(lit.status,200);assert.equal(lit.data.result,'created');assert.equal(lit.headers.get('access-control-allow-origin'),publicOrigin);
+assert.equal((await req('/api/v1/candles/me',{headers:remoteHeaders})).data.today_state,'lit');
+assert.equal((await req('/api/v1/candles/stats')).data.total_count-before,14);
+console.log(JSON.stringify({httpChecks:'passed',sameBrowserConcurrent:100,catalogItems:27,adminRoutes:'removed',catalogWrites:'405',crossOriginCandle:'passed',thirdPartyCookies:'not required',csrf:'blocked',pagination:'passed'}));

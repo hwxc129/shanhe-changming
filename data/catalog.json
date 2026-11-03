@@ -1,0 +1,265 @@
+[
+  {
+    "id": "first-opium-war",
+    "name": "第一次鸦片战争",
+    "aliases": [
+      "鸦片战争",
+      "First Opium War",
+      "First China War"
+    ],
+    "startYear": 1840,
+    "endYear": 1842
+  },
+  {
+    "id": "battle-of-humen-1841",
+    "name": "虎门之战",
+    "aliases": [
+      "虎门保卫战"
+    ],
+    "startYear": 1841,
+    "endYear": 1841
+  },
+  {
+    "id": "sanyuanli-resistance",
+    "name": "三元里抗英斗争",
+    "aliases": [
+      "三元里抗英",
+      "三元里人民抗英斗争"
+    ],
+    "startYear": 1841,
+    "endYear": 1841
+  },
+  {
+    "id": "second-opium-war",
+    "name": "第二次鸦片战争",
+    "aliases": [
+      "英法联军侵华战争",
+      "Second China War"
+    ],
+    "startYear": 1856,
+    "endYear": 1860
+  },
+  {
+    "id": "burning-yuanmingyuan",
+    "name": "火烧圆明园",
+    "aliases": [
+      "圆明园被焚",
+      "圆明园劫掠与焚毁"
+    ],
+    "startYear": 1860,
+    "endYear": 1860
+  },
+  {
+    "id": "japan-taiwan-expedition-1874",
+    "name": "1874年日本侵台事件",
+    "aliases": [
+      "日本侵台事件"
+    ],
+    "startYear": 1874,
+    "endYear": 1874
+  },
+  {
+    "id": "sino-french-war",
+    "name": "中法战争",
+    "aliases": [
+      "清法战争"
+    ],
+    "startYear": 1883,
+    "endYear": 1885
+  },
+  {
+    "id": "zhennanguan-victory",
+    "name": "镇南关大捷",
+    "aliases": [
+      "镇南关战役"
+    ],
+    "startYear": 1885,
+    "endYear": 1885
+  },
+  {
+    "id": "first-sino-japanese-war",
+    "name": "中日甲午战争",
+    "aliases": [
+      "甲午战争",
+      "日清战争"
+    ],
+    "startYear": 1894,
+    "endYear": 1895
+  },
+  {
+    "id": "port-arthur-massacre",
+    "name": "旅顺大屠杀",
+    "aliases": [
+      "旅顺惨案"
+    ],
+    "startYear": 1894,
+    "endYear": 1894
+  },
+  {
+    "id": "yellow-sea-battle-1894",
+    "name": "甲午黄海海战",
+    "aliases": [
+      "甲午黄海海战",
+      "黄海大战",
+      "中日黄海海战"
+    ],
+    "startYear": 1894,
+    "endYear": 1894
+  },
+  {
+    "id": "eight-nation-invasion",
+    "name": "八国联军侵华战争",
+    "aliases": [
+      "八国联军侵华",
+      "八国联军入侵"
+    ],
+    "startYear": 1900,
+    "endYear": 1901
+  },
+  {
+    "id": "gyantse-resistance-1904",
+    "name": "江孜抗英保卫战",
+    "aliases": [
+      "江孜抗英斗争",
+      "江孜宗山抗英战役"
+    ],
+    "startYear": 1904,
+    "endYear": 1904
+  },
+  {
+    "id": "qingdao-1914",
+    "name": "日德青岛之战",
+    "aliases": [
+      "青岛战役",
+      "青岛围攻战",
+      "Siege of Tsingtao"
+    ],
+    "startYear": 1914,
+    "endYear": 1914
+  },
+  {
+    "id": "jinan-1928",
+    "name": "济南惨案",
+    "aliases": [
+      "五三惨案",
+      "五三事件"
+    ],
+    "startYear": 1928,
+    "endYear": 1928
+  },
+  {
+    "id": "mukden-1931",
+    "name": "九一八事变",
+    "aliases": [
+      "九·一八事变",
+      "九一八事件",
+      "柳条湖事件"
+    ],
+    "startYear": 1931,
+    "endYear": 1931
+  },
+  {
+    "id": "shanghai-1932",
+    "name": "一二八淞沪抗战",
+    "aliases": [
+      "一·二八淞沪抗战",
+      "一二八事变",
+      "第一次淞沪抗战"
+    ],
+    "startYear": 1932,
+    "endYear": 1932
+  },
+  {
+    "id": "lugou-1937",
+    "name": "七七事变",
+    "aliases": [
+      "卢沟桥事变",
+      "七·七事变"
+    ],
+    "startYear": 1937,
+    "endYear": 1937
+  },
+  {
+    "id": "nanjing-massacre-1937",
+    "name": "南京大屠杀",
+    "aliases": [
+      "Nanking Massacre",
+      "Nanjing Massacre"
+    ],
+    "startYear": 1937,
+    "endYear": 1938
+  },
+  {
+    "id": "pingxingguan-1937",
+    "name": "平型关大捷",
+    "aliases": [
+      "平型关战斗",
+      "平型关伏击战"
+    ],
+    "startYear": 1937,
+    "endYear": 1937
+  },
+  {
+    "id": "shanghai-1937",
+    "name": "淞沪会战",
+    "aliases": [
+      "八一三淞沪会战",
+      "八一三淞沪抗战",
+      "八·一三淞沪抗战"
+    ],
+    "startYear": 1937,
+    "endYear": 1937
+  },
+  {
+    "id": "sihang-1937",
+    "name": "四行仓库保卫战",
+    "aliases": [
+      "四行仓库战斗",
+      "四行仓库抗战"
+    ],
+    "startYear": 1937,
+    "endYear": 1937
+  },
+  {
+    "id": "taierzhuang-1938",
+    "name": "台儿庄战役",
+    "aliases": [
+      "台儿庄大捷",
+      "台儿庄大战"
+    ],
+    "startYear": 1938,
+    "endYear": 1938
+  },
+  {
+    "id": "wuhan-1938",
+    "name": "武汉会战",
+    "aliases": [
+      "武汉保卫战"
+    ],
+    "startYear": 1938,
+    "endYear": 1938
+  },
+  {
+    "id": "changsha-first-1939",
+    "name": "第一次长沙会战",
+    "aliases": [
+      "第一次湘北会战"
+    ],
+    "startYear": 1939,
+    "endYear": 1939
+  },
+  {
+    "id": "hundred-regiments-1940",
+    "name": "百团大战",
+    "aliases": [],
+    "startYear": 1940,
+    "endYear": 1940
+  },
+  {
+    "id": "changde-1943",
+    "name": "常德会战",
+    "aliases": [],
+    "startYear": 1943,
+    "endYear": 1943
+  }
+]
