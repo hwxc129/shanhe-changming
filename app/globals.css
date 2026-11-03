@@ -105,3 +105,4 @@
  .event-dateline{font-size:12px}.event-dateline>span{font-size:10px}.event-context{font-size:11px}.event-parent{display:none}
  .timeline-more{min-height:48px}.timeline-more>span{font-size:11px}.timeline-scope{font-size:11px}.timeline-event h3{font-size:20px}
 }
+@media(max-width:760px){.timeline-selects{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.timeline-selects select:first-child{grid-column:1/-1;width:100%}.timeline-selects select{width:100%;min-width:0}}

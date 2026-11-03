@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { DatabaseSync } from "node:sqlite";
 import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
+import { areasFor } from "../lib/areas.ts";
 import { businessDayAt, nextDayResetAt, normalSearch } from "../lib/rules.ts";
 import { readCatalog, filterCatalog, catalogOverview, CATALOG_RELEASE } from "../lib/catalog.ts";
 import { allowedPublicOrigin, apiPreflight, withPublicCors } from "../lib/public-api.ts";
@@ -45,7 +46,7 @@ test("分页覆盖固定目录，返回数据被调用者修改不会改变目�
   const original=all[0].display_name;all[0].display_name="客户端篡改";
   assert.equal(readCatalog().data[0].display_name,original);
   assert.equal(readCatalog("第二次长沙").data[0].id,"changsha-second-1941");
-  assert.equal(readCatalog("喜峰口").total,0);
+  assert.equal(readCatalog("不存在的历史条目").total,0);
   assert.throws(()=>readCatalog("","all","unknown-id"),RangeError);
 });
 test("时间线筛选覆盖年份、类型、地区和跨年事件，不把年精度伪装成日期",()=>{
@@ -63,6 +64,27 @@ test("时间线筛选覆盖年份、类型、地区和跨年事件，不把年�
   assert.equal(filterCatalog({query:"不存在的历史条目"}).length,0);
   const originalIds=["first-opium-war","battle-of-humen-1841","sanyuanli-resistance","second-opium-war","burning-yuanmingyuan","japan-taiwan-expedition-1874","sino-french-war","zhennanguan-victory","first-sino-japanese-war","port-arthur-massacre","yellow-sea-battle-1894","eight-nation-invasion","gyantse-resistance-1904","qingdao-1914","jinan-1928","mukden-1931","shanghai-1932","lugou-1937","nanjing-massacre-1937","pingxingguan-1937","shanghai-1937","sihang-1937","taierzhuang-1938","wuhan-1938","changsha-first-1939","hundred-regiments-1940","changde-1943"];
   for(const id of originalIds)assert.ok(item(id),id);
+});
+test("地区索引依据事件地点，支持跨区组合并区分河流与省名",()=>{
+  assert.deepEqual(areasFor("hailanpao-massacre-1900","黑龙江北岸海兰泡"),["东北边境"]);
+  assert.deepEqual(areasFor("wanxian-incident-1926","四川万县（今重庆万州）"),["重庆"]);
+  assert.deepEqual(areasFor("x","湖南长沙、湖北武汉"),["湖北","湖南"]);
+  assert.deepEqual(areasFor("x","新加坡"),["境外"]);
+  assert.deepEqual(areasFor("x","苏鲁豫皖交界、徐州周边"),["江苏","安徽","山东","河南"]);
+  assert.deepEqual(areasFor("x","湘北、鄂南、赣北"),["江西","湖北","湖南"]);
+  assert.ok(filterCatalog({area:"湖南"}).some(e=>e.id==="changde-1943"));
+  assert.ok(filterCatalog({area:"湖南",year:"1943"}).every(e=>e.start_date.startsWith("1943")&&e.region.includes("湖南")));
+  assert.equal(filterCatalog({area:"未编目地区"}).length,0);
+});
+test("新收录的成立、改编、受降与驻军冲突保留事件区别",()=>{
+  const byId=(id:string)=>filterCatalog().find(e=>e.id===id)!;
+  assert.equal(byId("new-fourth-army-reorganization-1937").start_date,"1937-10-12");
+  assert.equal(byId("new-fourth-army-hq-wuhan-1937").start_date,"1937-12-25");
+  assert.equal(byId("nanchang-surrender-1945").start_date,"1945-09-14");
+  assert.equal(byId("anping-incident-1946").category,"驻军冲突");
+  assert.ok(filterCatalog({category:"成立改编"}).some(e=>e.id==="nanyang-relief-association-1938"));
+  assert.ok(filterCatalog({area:"贵州"}).some(e=>e.id==="shenheqiao-resistance-1944"));
+  for(const q of ["天津比利时租界","拉萨条约","东北抗日联军统一军队建制宣言"])assert.equal(readCatalog(q).total,0);
 });
 function database(){const db=new DatabaseSync(":memory:");db.exec(readFileSync(new URL("../drizzle/0000_stiff_iron_fist.sql",import.meta.url),"utf8"));return db;}
 test("每日唯一约束允许跨日和不同访客，失效流水不释放当日资格",()=>{

@@ -19,6 +19,23 @@
     "parentName": null
   },
   {
+    "id": "first-dinghai-defense-1840",
+    "name": "第一次定海保卫战",
+    "aliases": [
+      "第一次定海战役"
+    ],
+    "startYear": 1840,
+    "endYear": 1840,
+    "startDate": "1840-07",
+    "endDate": "1840-07",
+    "datePrecision": "month",
+    "dateLabel": "1840年7月",
+    "category": "战斗行动",
+    "level": "battle",
+    "region": "浙江定海",
+    "parentName": "第一次鸦片战争"
+  },
+  {
     "id": "sanyuanli-resistance",
     "name": "三元里抗英斗争",
     "aliases": [
@@ -34,6 +51,23 @@
     "category": "民众抵抗",
     "level": "movement",
     "region": "广东广州三元里",
+    "parentName": "第一次鸦片战争"
+  },
+  {
+    "id": "zhenhai-battle-1841",
+    "name": "1841年镇海之战",
+    "aliases": [
+      "镇海保卫战（1841年）"
+    ],
+    "startYear": 1841,
+    "endYear": 1841,
+    "startDate": "1841",
+    "endDate": "1841",
+    "datePrecision": "year",
+    "dateLabel": "1841年",
+    "category": "战斗行动",
+    "level": "battle",
+    "region": "浙江宁波镇海",
     "parentName": "第一次鸦片战争"
   },
   {
@@ -72,6 +106,41 @@
     "parentName": "第一次鸦片战争"
   },
   {
+    "id": "jingjiang-resistance-1842",
+    "name": "靖江人民抗英斗争",
+    "aliases": [
+      "靖江抗英斗争"
+    ],
+    "startYear": 1842,
+    "endYear": 1842,
+    "startDate": "1842",
+    "endDate": "1842",
+    "datePrecision": "year",
+    "dateLabel": "1842年",
+    "category": "民众抵抗",
+    "level": "movement",
+    "region": "江苏靖江",
+    "parentName": "第一次鸦片战争"
+  },
+  {
+    "id": "zhapu-defense-1842",
+    "name": "乍浦抗英之战",
+    "aliases": [
+      "乍浦保卫战",
+      "乍浦之战"
+    ],
+    "startYear": 1842,
+    "endYear": 1842,
+    "startDate": "1842",
+    "endDate": "1842",
+    "datePrecision": "year",
+    "dateLabel": "1842年",
+    "category": "战斗行动",
+    "level": "battle",
+    "region": "浙江乍浦",
+    "parentName": "第一次鸦片战争"
+  },
+  {
     "id": "wusong-battle-1842",
     "name": "吴淞之战",
     "aliases": [
@@ -86,6 +155,23 @@
     "category": "战斗行动",
     "level": "battle",
     "region": "上海吴淞",
+    "parentName": "第一次鸦片战争"
+  },
+  {
+    "id": "zhenjiang-defense-1842",
+    "name": "镇江保卫战",
+    "aliases": [
+      "镇江之战"
+    ],
+    "startYear": 1842,
+    "endYear": 1842,
+    "startDate": "1842-07",
+    "endDate": "1842-07",
+    "datePrecision": "month",
+    "dateLabel": "1842年7月",
+    "category": "战斗行动",
+    "level": "battle",
+    "region": "江苏镇江",
     "parentName": "第一次鸦片战争"
   },
   {
@@ -161,6 +247,24 @@
     "parentName": null
   },
   {
+    "id": "portuguese-occupation-taipa-1851",
+    "name": "葡萄牙侵占氹仔",
+    "aliases": [
+      "葡占氹仔",
+      "葡萄牙侵占凼仔"
+    ],
+    "startYear": 1851,
+    "endYear": 1851,
+    "startDate": "1851",
+    "endDate": "1851",
+    "datePrecision": "year",
+    "dateLabel": "1851年",
+    "category": "领土侵占",
+    "level": "incident",
+    "region": "澳门氹仔",
+    "parentName": null
+  },
+  {
     "id": "second-opium-war",
     "name": "第二次鸦片战争",
     "aliases": [
@@ -177,6 +281,23 @@
     "level": "war",
     "region": "广东、天津、北京",
     "parentName": null
+  },
+  {
+    "id": "guangzhou-battle-1857",
+    "name": "1857年广州之战",
+    "aliases": [
+      "英法联军攻占广州"
+    ],
+    "startYear": 1857,
+    "endYear": 1857,
+    "startDate": "1857",
+    "endDate": "1857",
+    "datePrecision": "year",
+    "dateLabel": "1857年",
+    "category": "战斗行动",
+    "level": "battle",
+    "region": "广东广州",
+    "parentName": "第二次鸦片战争"
   },
   {
     "id": "dagu-battle-1858",
@@ -300,6 +421,23 @@
     "parentName": "第二次鸦片战争"
   },
   {
+    "id": "baliqiao-battle-1860",
+    "name": "八里桥之战",
+    "aliases": [
+      "八里桥战役"
+    ],
+    "startYear": 1860,
+    "endYear": 1860,
+    "startDate": "1860",
+    "endDate": "1860",
+    "datePrecision": "year",
+    "dateLabel": "1860年",
+    "category": "战斗行动",
+    "level": "battle",
+    "region": "北京通州八里桥",
+    "parentName": "第二次鸦片战争"
+  },
+  {
     "id": "dagu-battle-1860",
     "name": "1860年大沽口之战",
     "aliases": [
@@ -407,6 +545,59 @@
     "parentName": null
   },
   {
+    "id": "portuguese-occupation-coloane-1864",
+    "name": "葡萄牙侵占路环",
+    "aliases": [
+      "葡占路环"
+    ],
+    "startYear": 1864,
+    "endYear": 1864,
+    "startDate": "1864",
+    "endDate": "1864",
+    "datePrecision": "year",
+    "dateLabel": "1864年",
+    "category": "领土侵占",
+    "level": "incident",
+    "region": "澳门路环",
+    "parentName": null
+  },
+  {
+    "id": "fujian-shipbuilding-bureau-founded-1866",
+    "name": "福建船政局创办",
+    "aliases": [
+      "福州船政局创办",
+      "马尾船政创办"
+    ],
+    "startYear": 1866,
+    "endYear": 1866,
+    "startDate": "1866",
+    "endDate": "1866",
+    "datePrecision": "year",
+    "dateLabel": "1866年",
+    "category": "成立改编",
+    "level": "incident",
+    "region": "福建福州马尾",
+    "parentName": null
+  },
+  {
+    "id": "rover-incident-1867",
+    "name": "罗发号事件及美军侵台行动",
+    "aliases": [
+      "罗佛号事件",
+      "罗妹号事件"
+    ],
+    "startYear": 1867,
+    "endYear": 1867,
+    "startDate": "1867",
+    "endDate": "1867",
+    "datePrecision": "year",
+    "dateLabel": "1867年",
+    "category": "侵略事变",
+    "level": "incident",
+    "region": "台湾南部",
+    "parentName": null
+  },
+  {
     "id": "russian-invasion-ili-1871",
     "name": "沙俄出兵侵占伊犁",
     "aliases": [
@@ -496,6 +687,23 @@
     "parentName": null
   },
   {
+    "id": "keelung-defense-1884",
+    "name": "基隆保卫战",
+    "aliases": [
+      "中法战争基隆战事"
+    ],
+    "startYear": 1884,
+    "endYear": 1884,
+    "startDate": "1884-08",
+    "endDate": null,
+    "datePrecision": "month",
+    "dateLabel": "1884年8月起",
+    "category": "战役会战",
+    "level": "campaign",
+    "region": "台湾基隆",
+    "parentName": "中法战争"
+  },
+  {
     "id": "battle-of-majiang",
     "name": "马江海战",
     "aliases": [
@@ -514,6 +722,42 @@
     "parentName": "中法战争"
   },
   {
+    "id": "huwei-battle-1884",
+    "name": "沪尾之役",
+    "aliases": [
+      "淡水之战",
+      "沪尾战役"
+    ],
+    "startYear": 1884,
+    "endYear": 1884,
+    "startDate": "1884-10",
+    "endDate": "1884-10",
+    "datePrecision": "month",
+    "dateLabel": "1884年10月",
+    "category": "战斗行动",
+    "level": "battle",
+    "region": "台湾淡水",
+    "parentName": "中法战争"
+  },
+  {
+    "id": "zhenhai-defense-1885",
+    "name": "镇海抗法保卫战",
+    "aliases": [
+      "镇海之战（1885年）",
+      "镇海之役"
+    ],
+    "startYear": 1885,
+    "endYear": 1885,
+    "startDate": "1885",
+    "endDate": "1885",
+    "datePrecision": "year",
+    "dateLabel": "1885年",
+    "category": "战斗行动",
+    "level": "battle",
+    "region": "浙江宁波镇海",
+    "parentName": "中法战争"
+  },
+  {
     "id": "zhennanguan-victory",
     "name": "镇南关大捷",
     "aliases": [
@@ -529,6 +773,23 @@
     "level": "battle",
     "region": "广西镇南关",
     "parentName": "中法战争"
+  },
+  {
+    "id": "beiyang-navy-established-1888",
+    "name": "北洋海军成军",
+    "aliases": [
+      "北洋海军正式成军"
+    ],
+    "startYear": 1888,
+    "endYear": 1888,
+    "startDate": "1888",
+    "endDate": "1888",
+    "datePrecision": "year",
+    "dateLabel": "1888年",
+    "category": "成立改编",
+    "level": "incident",
+    "region": "山东威海刘公岛",
+    "parentName": null
   },
   {
     "id": "british-invasion-tibet-1888",
@@ -584,6 +845,21 @@
     "parentName": "中日甲午战争"
   },
   {
+    "id": "pungdo-naval-battle-1894",
+    "name": "丰岛海战",
+    "aliases": [],
+    "startYear": 1894,
+    "endYear": 1894,
+    "startDate": "1894-07-25",
+    "endDate": "1894-07-25",
+    "datePrecision": "day",
+    "dateLabel": "1894年7月25日",
+    "category": "战斗行动",
+    "level": "battle",
+    "region": "朝鲜丰岛附近海域",
+    "parentName": "中日甲午战争"
+  },
+  {
     "id": "yellow-sea-battle-1894",
     "name": "甲午黄海海战",
     "aliases": [
@@ -603,6 +879,41 @@
     "parentName": "中日甲午战争"
   },
   {
+    "id": "taiwan-resistance-1895",
+    "name": "1895年台湾军民抗日斗争",
+    "aliases": [
+      "乙未抗日战争",
+      "乙未战争"
+    ],
+    "startYear": 1895,
+    "endYear": 1895,
+    "startDate": "1895",
+    "endDate": "1895",
+    "datePrecision": "year",
+    "dateLabel": "1895年",
+    "category": "战役会战",
+    "level": "campaign",
+    "region": "台湾",
+    "parentName": null
+  },
+  {
+    "id": "weihaiwei-battle-1895",
+    "name": "威海卫之战",
+    "aliases": [
+      "威海卫保卫战"
+    ],
+    "startYear": 1895,
+    "endYear": 1895,
+    "startDate": "1895",
+    "endDate": "1895",
+    "datePrecision": "year",
+    "dateLabel": "1895年",
+    "category": "战斗行动",
+    "level": "battle",
+    "region": "山东威海",
+    "parentName": "中日甲午战争"
+  },
+  {
     "id": "treaty-of-shimonoseki",
     "name": "《马关条约》签订",
     "aliases": [
@@ -619,6 +930,24 @@
     "level": "treaty",
     "region": "日本马关（今下关）",
     "parentName": "中日甲午战争"
+  },
+  {
+    "id": "baguashan-battle-1895",
+    "name": "八卦山之战",
+    "aliases": [
+      "八卦山之役",
+      "八卦山战役"
+    ],
+    "startYear": 1895,
+    "endYear": 1895,
+    "startDate": "1895-08",
+    "endDate": "1895-08",
+    "datePrecision": "month",
+    "dateLabel": "1895年8月",
+    "category": "战斗行动",
+    "level": "battle",
+    "region": "台湾彰化八卦山",
+    "parentName": "1895年台湾军民抗日斗争"
   },
   {
     "id": "german-occupation-jiaozhou-1897",
@@ -698,6 +1027,21 @@
     "category": "条约交涉",
     "level": "treaty",
     "region": "北京",
+    "parentName": null
+  },
+  {
+    "id": "tibet-invasion-1903",
+    "name": "英国第二次侵藏战争",
+    "aliases": [],
+    "startYear": 1903,
+    "endYear": 1903,
+    "startDate": "1903",
+    "endDate": null,
+    "datePrecision": "year",
+    "dateLabel": "1903年起",
+    "category": "侵略战争",
+    "level": "war",
+    "region": "西藏",
     "parentName": null
   },
   {
@@ -922,6 +1266,21 @@
     "parentName": null
   },
   {
+    "id": "huanggutun-incident-1928",
+    "name": "皇姑屯事件",
+    "aliases": [],
+    "startYear": 1928,
+    "endYear": 1928,
+    "startDate": "1928-06-04",
+    "endDate": null,
+    "datePrecision": "day",
+    "dateLabel": "1928年6月4日",
+    "category": "侵略事变",
+    "level": "incident",
+    "region": "奉天皇姑屯（今辽宁沈阳）",
+    "parentName": null
+  },
+  {
     "id": "jiangqiao-resistance-1931",
     "name": "江桥抗战",
     "aliases": [],
@@ -953,6 +1312,21 @@
     "category": "侵略事变",
     "level": "incident",
     "region": "沈阳、东北",
+    "parentName": null
+  },
+  {
+    "id": "pingdingshan-massacre-1932",
+    "name": "平顶山惨案",
+    "aliases": [],
+    "startYear": 1932,
+    "endYear": 1932,
+    "startDate": "1932",
+    "endDate": null,
+    "datePrecision": "year",
+    "dateLabel": "1932年",
+    "category": "惨案暴行",
+    "level": "incident",
+    "region": "辽宁抚顺",
     "parentName": null
   },
   {
@@ -1020,6 +1394,57 @@
     "parentName": "长城抗战"
   },
   {
+    "id": "gubeikou-resistance-1933",
+    "name": "古北口抗战",
+    "aliases": [
+      "古北口战役"
+    ],
+    "startYear": 1933,
+    "endYear": 1933,
+    "startDate": "1933-03",
+    "endDate": "1933-05",
+    "datePrecision": "month",
+    "dateLabel": "1933年3—5月",
+    "category": "战斗行动",
+    "level": "battle",
+    "region": "古北口（今北京市密云区）",
+    "parentName": "长城抗战"
+  },
+  {
+    "id": "xifengkou-resistance-1933",
+    "name": "喜峰口抗战",
+    "aliases": [
+      "喜峰口战役"
+    ],
+    "startYear": 1933,
+    "endYear": 1933,
+    "startDate": "1933-03",
+    "endDate": null,
+    "datePrecision": "month",
+    "dateLabel": "1933年3月起",
+    "category": "战斗行动",
+    "level": "battle",
+    "region": "河北喜峰口",
+    "parentName": "长城抗战"
+  },
+  {
+    "id": "chahar-allied-army-founded-1933",
+    "name": "察哈尔民众抗日同盟军成立",
+    "aliases": [
+      "察哈尔抗日同盟军成立"
+    ],
+    "startYear": 1933,
+    "endYear": 1933,
+    "startDate": "1933-05-26",
+    "endDate": null,
+    "datePrecision": "day",
+    "dateLabel": "1933年5月26日",
+    "category": "成立改编",
+    "level": "movement",
+    "region": "察哈尔张家口（今河北张家口）",
+    "parentName": null
+  },
+  {
     "id": "tanggu-truce-1933",
     "name": "《塘沽协定》签订",
     "aliases": [
@@ -1034,6 +1459,39 @@
     "category": "条约交涉",
     "level": "treaty",
     "region": "天津塘沽",
+    "parentName": null
+  },
+  {
+    "id": "shanghai-cultural-salvation-association-founded-1935",
+    "name": "上海文化界救国会成立",
+    "aliases": [],
+    "startYear": 1935,
+    "endYear": 1935,
+    "startDate": "1935-12",
+    "endDate": null,
+    "datePrecision": "month",
+    "dateLabel": "1935年12月",
+    "category": "成立改编",
+    "level": "movement",
+    "region": "上海",
+    "parentName": null
+  },
+  {
+    "id": "shanghai-womens-salvation-association-founded-1935",
+    "name": "上海妇女救国联合会成立",
+    "aliases": [
+      "上海妇女界救国会成立",
+      "上海妇女救国会成立"
+    ],
+    "startYear": 1935,
+    "endYear": 1935,
+    "startDate": "1935-12",
+    "endDate": null,
+    "datePrecision": "month",
+    "dateLabel": "1935年12月",
+    "category": "成立改编",
+    "level": "movement",
+    "region": "上海",
     "parentName": null
   },
   {
@@ -1068,6 +1526,89 @@
     "level": "campaign",
     "region": "绥远（今内蒙古中部）",
     "parentName": null
+  },
+  {
+    "id": "shanghai-salvation-association-founded-1936",
+    "name": "上海各界救国联合会成立",
+    "aliases": [
+      "上海各界救国会成立"
+    ],
+    "startYear": 1936,
+    "endYear": 1936,
+    "startDate": "1936-01-28",
+    "endDate": null,
+    "datePrecision": "day",
+    "dateLabel": "1936年1月28日",
+    "category": "成立改编",
+    "level": "movement",
+    "region": "上海",
+    "parentName": null
+  },
+  {
+    "id": "national-liberation-vanguard-founded-1936",
+    "name": "民族解放先锋队成立",
+    "aliases": [
+      "中华民族解放先锋队成立",
+      "民先队成立"
+    ],
+    "startYear": 1936,
+    "endYear": 1936,
+    "startDate": "1936-02-01",
+    "endDate": null,
+    "datePrecision": "day",
+    "dateLabel": "1936年2月1日",
+    "category": "成立改编",
+    "level": "movement",
+    "region": "北平（今北京）",
+    "parentName": null
+  },
+  {
+    "id": "national-salvation-association-founded-1936",
+    "name": "全国各界救国联合会成立",
+    "aliases": [
+      "全救会成立",
+      "全国救国会成立"
+    ],
+    "startYear": 1936,
+    "endYear": 1936,
+    "startDate": "1936-05-31",
+    "endDate": null,
+    "datePrecision": "day",
+    "dateLabel": "1936年5月31日",
+    "category": "成立改编",
+    "level": "movement",
+    "region": "上海（成立地）；全国",
+    "parentName": null
+  },
+  {
+    "id": "bailingmiao-battle-1936",
+    "name": "百灵庙战役",
+    "aliases": [],
+    "startYear": 1936,
+    "endYear": 1936,
+    "startDate": "1936-11",
+    "endDate": null,
+    "datePrecision": "month",
+    "dateLabel": "1936年11月",
+    "category": "战斗行动",
+    "level": "battle",
+    "region": "绥远百灵庙",
+    "parentName": "绥远抗战"
+  },
+  {
+    "id": "honggeertu-battle-1936",
+    "name": "红格尔图战役",
+    "aliases": [],
+    "startYear": 1936,
+    "endYear": 1936,
+    "startDate": "1936-11",
+    "endDate": null,
+    "datePrecision": "month",
+    "dateLabel": "1936年11月",
+    "category": "战斗行动",
+    "level": "battle",
+    "region": "绥远陶林红格尔图（今内蒙古乌兰察布市察哈尔右翼后旗）",
+    "parentName": "绥远抗战"
   },
   {
     "id": "xinkou-1937",
@@ -1134,6 +1675,24 @@
     "category": "战役会战",
     "level": "campaign",
     "region": "上海及周边",
+    "parentName": "中国人民抗日战争"
+  },
+  {
+    "id": "eighth-route-army-reorganization-1937",
+    "name": "红军主力改编为八路军",
+    "aliases": [
+      "八路军改编",
+      "国民革命军第八路军改编"
+    ],
+    "startYear": 1937,
+    "endYear": 1937,
+    "startDate": "1937-08-25",
+    "endDate": null,
+    "datePrecision": "day",
+    "dateLabel": "1937年8月25日",
+    "category": "成立改编",
+    "level": "incident",
+    "region": "陕西（改编及命令发布）；开赴华北抗日前线",
     "parentName": "中国人民抗日战争"
   },
   {
@@ -1205,6 +1764,24 @@
     "parentName": null
   },
   {
+    "id": "new-fourth-army-reorganization-1937",
+    "name": "南方红军游击队改编为新四军",
+    "aliases": [
+      "新四军成立",
+      "国民革命军陆军新编第四军组建"
+    ],
+    "startYear": 1937,
+    "endYear": 1937,
+    "startDate": "1937-10-12",
+    "endDate": null,
+    "datePrecision": "day",
+    "dateLabel": "1937年10月12日",
+    "category": "成立改编",
+    "level": "incident",
+    "region": "江西等南方八省红军游击区",
+    "parentName": "中国人民抗日战争"
+  },
+  {
     "id": "yangmingbao-1937",
     "name": "夜袭阳明堡战斗",
     "aliases": [
@@ -1253,6 +1830,23 @@
     "level": "incident",
     "region": "江苏南京",
     "parentName": null
+  },
+  {
+    "id": "new-fourth-army-hq-wuhan-1937",
+    "name": "新四军军部在武汉成立",
+    "aliases": [
+      "新四军汉口军部成立"
+    ],
+    "startYear": 1937,
+    "endYear": 1937,
+    "startDate": "1937-12-25",
+    "endDate": null,
+    "datePrecision": "day",
+    "dateLabel": "1937年12月25日",
+    "category": "成立改编",
+    "level": "incident",
+    "region": "湖北武汉汉口大和街（今胜利街）",
+    "parentName": "南方红军游击队改编为新四军"
   },
   {
     "id": "wanjialing-1938",
@@ -1367,6 +1961,58 @@
     "parentName": "中国人民抗日战争"
   },
   {
+    "id": "china-defense-league-1938",
+    "name": "保卫中国同盟成立",
+    "aliases": [
+      "保盟成立"
+    ],
+    "startYear": 1938,
+    "endYear": 1938,
+    "startDate": "1938-06-14",
+    "endDate": null,
+    "datePrecision": "day",
+    "dateLabel": "1938年6月14日",
+    "category": "成立改编",
+    "level": "incident",
+    "region": "香港",
+    "parentName": "中国人民抗日战争"
+  },
+  {
+    "id": "nanyang-relief-association-1938",
+    "name": "南洋华侨筹赈祖国难民总会成立",
+    "aliases": [
+      "南侨总会成立"
+    ],
+    "startYear": 1938,
+    "endYear": 1938,
+    "startDate": "1938-10-10",
+    "endDate": "1938-10-10",
+    "datePrecision": "day",
+    "dateLabel": "1938年10月10日",
+    "category": "成立改编",
+    "level": "organization",
+    "region": "新加坡",
+    "parentName": "海外华侨抗日救亡运动"
+  },
+  {
+    "id": "yunlong-reorganization-1938",
+    "name": "琼崖红军云龙改编暨誓师抗日",
+    "aliases": [
+      "云龙改编",
+      "广东民众抗日自卫团第十四区独立队成立"
+    ],
+    "startYear": 1938,
+    "endYear": 1938,
+    "startDate": "1938-12",
+    "endDate": null,
+    "datePrecision": "month",
+    "dateLabel": "1938年12月",
+    "category": "成立改编",
+    "level": "incident",
+    "region": "海南海口琼山云龙墟",
+    "parentName": "中国人民抗日战争"
+  },
+  {
     "id": "guinan-1939",
     "name": "桂南会战",
     "aliases": [],
@@ -1382,6 +2028,23 @@
     "parentName": "中国人民抗日战争"
   },
   {
+    "id": "lanzhou-air-battle-1939",
+    "name": "1939年2月兰州空战",
+    "aliases": [
+      "兰州二月空战"
+    ],
+    "startYear": 1939,
+    "endYear": 1939,
+    "startDate": "1939-02",
+    "endDate": "1939-02",
+    "datePrecision": "month",
+    "dateLabel": "1939年2月",
+    "category": "战役会战",
+    "level": "campaign",
+    "region": "甘肃兰州",
+    "parentName": null
+  },
+  {
     "id": "nanchang-1939",
     "name": "南昌会战",
     "aliases": [],
@@ -1395,6 +2058,23 @@
     "level": "campaign",
     "region": "江西南昌及赣北",
     "parentName": "中国人民抗日战争"
+  },
+  {
+    "id": "qiongya-independent-general-unit-1939",
+    "name": "琼崖抗日独立总队扩编成立",
+    "aliases": [
+      "广东省琼崖抗日游击队独立总队组建"
+    ],
+    "startYear": 1939,
+    "endYear": 1939,
+    "startDate": "1939-03",
+    "endDate": null,
+    "datePrecision": "month",
+    "dateLabel": "1939年3月",
+    "category": "成立改编",
+    "level": "incident",
+    "region": "海南琼崖",
+    "parentName": "琼崖红军云龙改编暨誓师抗日"
   },
   {
     "id": "suizao-1939",
@@ -1414,6 +2094,23 @@
     "parentName": "中国人民抗日战争"
   },
   {
+    "id": "leshan-bombing-1939",
+    "name": "乐山八一九大轰炸",
+    "aliases": [
+      "八一九乐山大轰炸"
+    ],
+    "startYear": 1939,
+    "endYear": 1939,
+    "startDate": "1939-08-19",
+    "endDate": "1939-08-19",
+    "datePrecision": "day",
+    "dateLabel": "1939年8月19日",
+    "category": "空袭轰炸",
+    "level": "incident",
+    "region": "四川乐山",
+    "parentName": null
+  },
+  {
     "id": "changsha-first-1939",
     "name": "第一次长沙会战",
     "aliases": [
@@ -1430,6 +2127,38 @@
     "level": "campaign",
     "region": "湘北、鄂南、赣北",
     "parentName": "中国人民抗日战争"
+  },
+  {
+    "id": "chenzhuang-1939",
+    "name": "陈庄战斗",
+    "aliases": [],
+    "startYear": 1939,
+    "endYear": 1939,
+    "startDate": "1939-09",
+    "endDate": "1939-09",
+    "datePrecision": "month",
+    "dateLabel": "1939年9月",
+    "category": "战斗行动",
+    "level": "battle",
+    "region": "河北石家庄灵寿",
+    "parentName": null
+  },
+  {
+    "id": "huangtuling-1939",
+    "name": "黄土岭战斗",
+    "aliases": [
+      "黄土岭伏击战"
+    ],
+    "startYear": 1939,
+    "endYear": 1939,
+    "startDate": "1939-11",
+    "endDate": "1939-11",
+    "datePrecision": "month",
+    "dateLabel": "1939年11月",
+    "category": "战斗行动",
+    "level": "battle",
+    "region": "河北保定涞源、易县黄土岭",
+    "parentName": null
   },
   {
     "id": "kunlunguan-1939",
@@ -1529,6 +2258,51 @@
     "parentName": "中国人民抗日战争"
   },
   {
+    "id": "yunan-1941",
+    "name": "豫南会战",
+    "aliases": [],
+    "startYear": 1941,
+    "endYear": 1941,
+    "startDate": "1941-01",
+    "endDate": "1941-02",
+    "datePrecision": "month",
+    "dateLabel": "1941年1月—2月",
+    "category": "战役会战",
+    "level": "campaign",
+    "region": "河南南部",
+    "parentName": "中国人民抗日战争"
+  },
+  {
+    "id": "panjiayu-1941",
+    "name": "潘家峪惨案",
+    "aliases": [],
+    "startYear": 1941,
+    "endYear": 1941,
+    "startDate": "1941-01-25",
+    "endDate": "1941-01-25",
+    "datePrecision": "day",
+    "dateLabel": "1941年1月25日",
+    "category": "惨案暴行",
+    "level": "incident",
+    "region": "河北唐山丰润潘家峪",
+    "parentName": null
+  },
+  {
+    "id": "qingkou-1941",
+    "name": "青口战役",
+    "aliases": [],
+    "startYear": 1941,
+    "endYear": 1941,
+    "startDate": "1941-03",
+    "endDate": "1941-03",
+    "datePrecision": "month",
+    "dateLabel": "1941年3月",
+    "category": "战役会战",
+    "level": "campaign",
+    "region": "江苏连云港赣榆青口",
+    "parentName": null
+  },
+  {
     "id": "shanggao-1941",
     "name": "上高会战",
     "aliases": [],
@@ -1542,6 +2316,24 @@
     "level": "campaign",
     "region": "江西上高",
     "parentName": "中国人民抗日战争"
+  },
+  {
+    "id": "chongqing-tunnel-1941",
+    "name": "重庆六五大隧道惨案",
+    "aliases": [
+      "六五大隧道惨案",
+      "六·五大隧道惨案"
+    ],
+    "startYear": 1941,
+    "endYear": 1941,
+    "startDate": "1941-06-05",
+    "endDate": "1941-06-05",
+    "datePrecision": "day",
+    "dateLabel": "1941年6月5日",
+    "category": "惨案暴行",
+    "level": "incident",
+    "region": "重庆渝中较场口",
+    "parentName": "重庆大轰炸"
   },
   {
     "id": "changsha-second-1941",
@@ -1590,6 +2382,38 @@
     "category": "战斗行动",
     "level": "battle",
     "region": "山西黎城",
+    "parentName": null
+  },
+  {
+    "id": "changde-bacteriological-attack-1941",
+    "name": "日军常德细菌战",
+    "aliases": [
+      "常德细菌战"
+    ],
+    "startYear": 1941,
+    "endYear": 1941,
+    "startDate": "1941-11-04",
+    "endDate": null,
+    "datePrecision": "day",
+    "dateLabel": "1941年11月4日起",
+    "category": "惨案暴行",
+    "level": "incident",
+    "region": "湖南常德",
+    "parentName": null
+  },
+  {
+    "id": "daqingshan-breakout-1941",
+    "name": "大青山突围战",
+    "aliases": [],
+    "startYear": 1941,
+    "endYear": 1941,
+    "startDate": "1941-11-30",
+    "endDate": "1941-11-30",
+    "datePrecision": "day",
+    "dateLabel": "1941年11月30日",
+    "category": "战斗行动",
+    "level": "battle",
+    "region": "山东临沂费县、沂南、蒙阴交界",
     "parentName": null
   },
   {
@@ -1678,6 +2502,24 @@
     "parentName": "中国人民抗日战争"
   },
   {
+    "id": "hongkong-kowloon-brigade-1942",
+    "name": "港九大队成立",
+    "aliases": [
+      "港九人民抗日游击队成立",
+      "东江纵队港九独立大队前身成立"
+    ],
+    "startYear": 1942,
+    "endYear": 1942,
+    "startDate": "1942-02-03",
+    "endDate": null,
+    "datePrecision": "day",
+    "dateLabel": "1942年2月3日",
+    "category": "成立改编",
+    "level": "incident",
+    "region": "香港新界西贡黄毛应",
+    "parentName": "中国人民抗日战争"
+  },
+  {
     "id": "north-burma-counteroffensive-1943",
     "name": "缅北反攻",
     "aliases": [
@@ -1712,6 +2554,36 @@
     "parentName": null
   },
   {
+    "id": "exi-1943",
+    "name": "鄂西会战",
+    "aliases": [],
+    "startYear": 1943,
+    "endYear": 1943,
+    "startDate": "1943-05",
+    "endDate": null,
+    "datePrecision": "month",
+    "dateLabel": "1943年5月起",
+    "category": "战役会战",
+    "level": "campaign",
+    "region": "湖北鄂西、长江南岸",
+    "parentName": "中国人民抗日战争"
+  },
+  {
+    "id": "changjiao-massacre-1943",
+    "name": "厂窖惨案",
+    "aliases": [],
+    "startYear": 1943,
+    "endYear": 1943,
+    "startDate": "1943-05-09",
+    "endDate": null,
+    "datePrecision": "day",
+    "dateLabel": "1943年5月9日起",
+    "category": "惨案暴行",
+    "level": "incident",
+    "region": "湖南益阳南县厂窖",
+    "parentName": null
+  },
+  {
     "id": "changde-1943",
     "name": "常德会战",
     "aliases": [],
@@ -1724,6 +2596,23 @@
     "category": "战役会战",
     "level": "campaign",
     "region": "湖南常德",
+    "parentName": "中国人民抗日战争"
+  },
+  {
+    "id": "dongjiang-column-1943",
+    "name": "东江纵队成立",
+    "aliases": [
+      "广东人民抗日游击队东江纵队成立"
+    ],
+    "startYear": 1943,
+    "endYear": 1943,
+    "startDate": "1943-12-02",
+    "endDate": null,
+    "datePrecision": "day",
+    "dateLabel": "1943年12月2日",
+    "category": "成立改编",
+    "level": "incident",
+    "region": "广东深圳葵涌土洋；东江地区",
     "parentName": "中国人民抗日战争"
   },
   {
@@ -1742,6 +2631,23 @@
     "level": "campaign",
     "region": "广西桂林、柳州及周边",
     "parentName": "豫湘桂战役"
+  },
+  {
+    "id": "qiongya-independent-column-1944",
+    "name": "琼崖抗日独立纵队改编成立",
+    "aliases": [
+      "广东省琼崖抗日游击队独立纵队成立"
+    ],
+    "startYear": 1944,
+    "endYear": 1944,
+    "startDate": "1944",
+    "endDate": null,
+    "datePrecision": "year",
+    "dateLabel": "1944年秋",
+    "category": "成立改编",
+    "level": "incident",
+    "region": "海南琼崖",
+    "parentName": "琼崖抗日独立总队扩编成立"
   },
   {
     "id": "yuzhong-1944",
@@ -1906,6 +2812,23 @@
     "parentName": "滇西反攻"
   },
   {
+    "id": "shenheqiao-resistance-1944",
+    "name": "深河桥抗战",
+    "aliases": [
+      "深河桥阻击战"
+    ],
+    "startYear": 1944,
+    "endYear": 1944,
+    "startDate": "1944-12",
+    "endDate": "1944-12",
+    "datePrecision": "month",
+    "dateLabel": "1944年12月",
+    "category": "战斗行动",
+    "level": "battle",
+    "region": "贵州黔南独山深河桥",
+    "parentName": "黔南抗战"
+  },
+  {
     "id": "wanding-recovered-1945",
     "name": "畹町收复",
     "aliases": [],
@@ -1919,6 +2842,21 @@
     "level": "incident",
     "region": "云南畹町",
     "parentName": "滇西反攻"
+  },
+  {
+    "id": "yuxi-ebe-1945",
+    "name": "豫西鄂北会战",
+    "aliases": [],
+    "startYear": 1945,
+    "endYear": 1945,
+    "startDate": "1945-03",
+    "endDate": null,
+    "datePrecision": "month",
+    "dateLabel": "1945年3月起",
+    "category": "战役会战",
+    "level": "campaign",
+    "region": "河南西部、湖北北部",
+    "parentName": "中国人民抗日战争"
   },
   {
     "id": "xiangxi-1945",
@@ -2020,6 +2958,59 @@
     "parentName": "中国人民抗日战争"
   },
   {
+    "id": "nanchang-surrender-1945",
+    "name": "南昌地区受降仪式",
+    "aliases": [
+      "江西地区南昌受降"
+    ],
+    "startYear": 1945,
+    "endYear": 1945,
+    "startDate": "1945-09-14",
+    "endDate": null,
+    "datePrecision": "day",
+    "dateLabel": "1945年9月14日",
+    "category": "胜利受降",
+    "level": "incident",
+    "region": "江西南昌中山路原中央银行大楼",
+    "parentName": "中国人民抗日战争"
+  },
+  {
+    "id": "changsha-surrender-1945",
+    "name": "长衡地区长沙受降仪式",
+    "aliases": [
+      "长沙受降",
+      "长衡受降"
+    ],
+    "startYear": 1945,
+    "endYear": 1945,
+    "startDate": "1945-09-15",
+    "endDate": null,
+    "datePrecision": "day",
+    "dateLabel": "1945年9月15日",
+    "category": "胜利受降",
+    "level": "incident",
+    "region": "湖南长沙岳麓山湖南大学科学馆",
+    "parentName": "中国人民抗日战争"
+  },
+  {
+    "id": "guangzhou-surrender-1945",
+    "name": "广州地区日军投降签字仪式",
+    "aliases": [
+      "广州受降",
+      "中山纪念堂受降"
+    ],
+    "startYear": 1945,
+    "endYear": 1945,
+    "startDate": "1945-09-16",
+    "endDate": null,
+    "datePrecision": "day",
+    "dateLabel": "1945年9月16日",
+    "category": "胜利受降",
+    "level": "incident",
+    "region": "广东广州中山纪念堂",
+    "parentName": "中国人民抗日战争"
+  },
+  {
     "id": "hongkong-surrender-1945",
     "name": "香港日军受降仪式",
     "aliases": [
@@ -2034,6 +3025,24 @@
     "category": "胜利受降",
     "level": "incident",
     "region": "香港总督府",
+    "parentName": "中国人民抗日战争"
+  },
+  {
+    "id": "wuhan-surrender-1945",
+    "name": "武汉地区日军投降仪式",
+    "aliases": [
+      "湖北地区受降",
+      "汉口受降"
+    ],
+    "startYear": 1945,
+    "endYear": 1945,
+    "startDate": "1945-09-18",
+    "endDate": null,
+    "datePrecision": "day",
+    "dateLabel": "1945年9月18日",
+    "category": "胜利受降",
+    "level": "incident",
+    "region": "湖北武汉汉口中山公园受降堂",
     "parentName": "中国人民抗日战争"
   },
   {
@@ -2052,6 +3061,21 @@
     "level": "incident",
     "region": "台湾台北公会堂（今中山堂）",
     "parentName": "中国人民抗日战争"
+  },
+  {
+    "id": "anping-incident-1946",
+    "name": "安平事件",
+    "aliases": [],
+    "startYear": 1946,
+    "endYear": 1946,
+    "startDate": "1946-07-29",
+    "endDate": null,
+    "datePrecision": "day",
+    "dateLabel": "1946年7月29日（交火发生）",
+    "category": "驻军冲突",
+    "level": "incident",
+    "region": "河北香河安平",
+    "parentName": null
   },
   {
     "id": "anti-us-japan-aid-movement-1948",
