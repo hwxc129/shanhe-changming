@@ -3108,5 +3108,41 @@
     "level": "incident",
     "region": "江苏长江镇江、江阴等水域",
     "parentName": null
+  },
+  {
+    "id": "common-program-adopted-1949",
+    "name": "中国人民政治协商会议通过《共同纲领》",
+    "aliases": [
+      "共同纲领",
+      "筹建新中国"
+    ],
+    "startYear": 1949,
+    "endYear": 1949,
+    "startDate": "1949-09-29",
+    "endDate": "1949-09-29",
+    "datePrecision": "day",
+    "dateLabel": "1949年9月29日",
+    "category": "筹建与成立",
+    "level": "incident",
+    "region": "北京",
+    "parentName": null
+  },
+  {
+    "id": "prc-founding-1949",
+    "name": "中华人民共和国成立（开国大典）",
+    "aliases": [
+      "新中国成立",
+      "开国大典"
+    ],
+    "startYear": 1949,
+    "endYear": 1949,
+    "startDate": "1949-10-01",
+    "endDate": "1949-10-01",
+    "datePrecision": "day",
+    "dateLabel": "1949年10月1日",
+    "category": "筹建与成立",
+    "level": "incident",
+    "region": "北京天安门",
+    "parentName": null
   }
 ]

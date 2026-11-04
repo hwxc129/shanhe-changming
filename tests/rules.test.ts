@@ -4,6 +4,7 @@ import { DatabaseSync } from "node:sqlite";
 import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { areasFor } from "../lib/areas.ts";
+import { chinaDay } from "../lib/festivals.ts";
 import { businessDayAt, nextDayResetAt, normalSearch } from "../lib/rules.ts";
 import { readCatalog, filterCatalog, catalogOverview, CATALOG_RELEASE } from "../lib/catalog.ts";
 import { allowedPublicOrigin, apiPreflight, withPublicCors } from "../lib/public-api.ts";
@@ -14,6 +15,23 @@ test("业务日期在北京时间零点切换，不受服务器时区影响",()=
   assert.equal(businessDayAt(Date.parse("2026-11-03T16:00:00.000Z")),"2026-11-04");
   assert.equal(nextDayResetAt(Date.parse("2026-11-03T15:59:59Z")),"2026-11-03T16:00:00.000Z");
   assert.equal(nextDayResetAt(Date.parse("2026-12-31T16:00:00Z")),"2027-01-01T16:00:00.000Z");
+});
+test("北京时间零点切换除夕和春节，闰月不重复普通农历节日", () => {
+  const before = chinaDay(Date.parse("2026-02-16T15:59:59Z"));
+  const after = chinaDay(Date.parse("2026-02-16T16:00:00Z"));
+  assert.equal(before.theme?.id, "eve");
+  assert.equal(after.theme?.id, "spring");
+  assert.equal(after.lunarLabel, "农历正月初一");
+  const leap = chinaDay(Date.parse("2023-03-23T12:00:00+08:00"));
+  assert.equal(leap.lunarLabel, "农历闰二月初二");
+  assert.equal(leap.theme, undefined);
+});
+test("节气按年度日期触发，国家公祭日使用纪念主题", () => {
+  assert.equal(chinaDay(Date.parse("2025-04-04T12:00:00+08:00")).theme?.id, "qingming");
+  assert.equal(chinaDay(Date.parse("2026-04-04T12:00:00+08:00")).theme, undefined);
+  assert.equal(chinaDay(Date.parse("2026-04-05T12:00:00+08:00")).theme?.id, "qingming");
+  assert.equal(chinaDay(Date.parse("2026-12-22T12:00:00+08:00")).theme?.id, "solstice");
+  assert.equal(chinaDay(Date.parse("2026-12-13T12:00:00+08:00")).theme?.id, "national-memorial");
 });
 test("简繁别名检索与空格归一",()=>{
   assert.equal(normalSearch("盧溝橋事變"),normalSearch("卢沟桥事变"));

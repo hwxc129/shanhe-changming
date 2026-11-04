@@ -5,7 +5,7 @@ export const PERIODS = [
   { id: "1901-1930", label: "1901—1930", start: 1901, end: 1930, title: "危局救亡", description: "殖民冲突与反侵略运动" },
   { id: "1931-1936", label: "1931—1936", start: 1931, end: 1936, title: "山河告急", description: "局部抗战与民族救亡" },
   { id: "1937-1945", label: "1937—1945", start: 1937, end: 1945, title: "共同抗战", description: "正面战场与敌后抵抗" },
-  { id: "1946-1949", label: "1946—1949", start: 1946, end: 1949, title: "战后余波", description: "外来干涉与相关抵抗" },
+  { id: "1946-1949", label: "1946—1949", start: 1946, end: 1949, title: "走向新中国", description: "战后余波与新中国成立" },
 ];
 export function businessDayAt(time: Date | number = Date.now()) {
   return new Date(+time + 8 * 3600_000).toISOString().slice(0, 10);

@@ -1,7 +1,10 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowRight, Check, Flame, Play } from "lucide-react";
+import { ArrowDown, ArrowRight, BookOpen, Check, Flame, Play } from "lucide-react";
 import HistoryTimeline from "./history-timeline";
+import StoryJourney from "./story-journey";
+import { ChinaCalendarStrip, FestivalMark, festivalStyle } from "./china-calendar";
+import { useChinaDay } from "../hooks/use-china-day";
 import { request, post, siteHref, backupSite } from "../lib/api-client";
 
 type Stats = { today_count: number; total_count: number; business_date: string; as_of: string };
@@ -12,6 +15,13 @@ function MountainScene() { return <svg className="mountains" viewBox="0 0 1600 5
 function Candle({ lit }: { lit: boolean }) { return <div className={`candle-scene ${lit ? "is-lit" : ""}`} aria-hidden="true"><div className="memorial-orbit orbit-one"/><div className="memorial-orbit orbit-two"/><div className="scene-mist"/><div className="candle-glow"/><div className="candle-flame"><div className="flame-core"/></div><div className="candle-wick"/><div className="candle-body"><div className="candle-top"/><i className="wax-drip drip-one"/><i className="wax-drip drip-two"/><span className="candle-engraving">长<br/>明</span></div><div className="candle-holder"/><div className="candle-ground"/><span className="scene-side-note">山河铭记 · 薪火长存</span></div>; }
 
 export default function Memorial({ initialStats }: { initialStats: Stats | null }) {
+  const day = useChinaDay();
+  const festival = day?.theme;
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!/^#[a-z][a-z0-9-]*$/.test(hash)) return;
+    document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: "instant" });
+  }, []);
   const [stats, setStats] = useState(initialStats); const [me, setMe] = useState<Me | null>(null);
   const [busy, setBusy] = useState(false); const [notice, setNotice] = useState(""); const [error, setError] = useState("");
   const pending = useRef<string | null>(null);
@@ -59,9 +69,10 @@ export default function Memorial({ initialStats }: { initialStats: Stats | null 
   };
   const isLit = me?.today_state === "lit";
   const buttonLabel = busy ? "正在点亮" : isLit ? "今日已点亮" : me?.today_state === "unavailable" ? "今日暂无法参与" : "点亮一支蜡烛";
-  return <>
+  return <div className={festival ? "memorial-page festival-active" : "memorial-page"} style={festivalStyle(festival)}>
     <a className="skip-link" href="#events">跳到事件目录</a>
     <header className="site-header"><Brand /><nav aria-label="主导航"><a className="active" href="#memorial">纪念</a><a href="#events">历史时间线</a><a href={siteHref("/about/")}>关于本站</a></nav><span className="header-note">心怀敬意 · 珍爱和平</span></header>
+    <ChinaCalendarStrip day={day} />
     <main>
       <section className="hero" id="memorial" aria-labelledby="hero-title">
         <div className="hero-vignette"/><MountainScene />
@@ -69,13 +80,20 @@ export default function Memorial({ initialStats }: { initialStats: Stats | null 
           <div className="candle-action"><button className={`light-button ${isLit ? "completed" : ""}`} onClick={light} disabled={busy || !me?.ready || !me.can_light}>{isLit ? <Check size={18}/> : <Flame size={19} strokeWidth={1.5}/>}<span>{buttonLabel}</span>{!isLit && <ArrowRight size={17}/>}</button><span className="action-caption">每日一烛，寄托思念</span></div>
           <p className={`candle-feedback ${error ? "has-error" : ""}`} role="status" aria-live="polite">{error || notice || (isLit ? "你的敬意已被记录，明日可再次点亮。" : "无需登录 · 同一浏览器每天一次")}{error && <><button className="text-button" onClick={() => { void prepare(); void refreshStats(); }}>重新连接</button><a className="text-button" href={backupSite} target="_blank" rel="noopener noreferrer">备用站点</a></>}</p>
           <div className="memorial-stats" aria-label="点烛统计"><div><span className="stat-value">{stats ? stats.today_count.toLocaleString("zh-CN") : "—"}</span><span>今日点亮<span className="stat-unit"> / 次</span></span></div><div><span className="stat-value">{stats ? stats.total_count.toLocaleString("zh-CN") : "—"}</span><span>累计点亮<span className="stat-unit"> / 次</span></span></div><p>{import.meta.env.DEV ? "本地预览数据，与公网独立。" : "每一份敬意，都值得被记得。"}</p></div>
-          <a className="hero-player-link" href="#timeline-player"><Play size={14} aria-hidden="true" /> 历史展映 <ArrowRight size={14} aria-hidden="true" /></a>
+          <div className="hero-reading-links">
+            <a className="hero-player-link" href="#stories"><BookOpen size={15} aria-hidden="true" /> 阅读历史故事</a>
+            <a className="hero-player-link" href="#timeline-player"><Play size={14} aria-hidden="true" /> 历史展映 <ArrowRight size={14} aria-hidden="true" /></a>
+          </div>
+          {festival && <a className="hero-festival-link" href={siteHref("/festivals/")}>
+            <FestivalMark motif={festival.motif} /> <span>{festival.name}</span> <ArrowRight size={14} aria-hidden="true" />
+          </a>}
         </div><div className="hero-art"><Candle lit={!!isLit}/><span className="art-caption"><span/> 一烛微光，山河共念 <span/></span></div></div>
-        <a className="scroll-note" href="#journey"><span>向下 · 循时铭记</span><ArrowDown size={14}/></a>
+        <a className="scroll-note" href="#stories"><span>向下 · 循时铭记</span><ArrowDown size={14}/></a>
         <span className="hero-coordinate">以铭记，致敬不朽。</span>
       </section>
+      <StoryJourney />
       <HistoryTimeline />
       <section className="closing"><Flame size={21} strokeWidth={1}/><p>山河无恙，吾辈自强。</p><span>让铭记成为日常，让和平走向长远。</span><a href="#memorial">回到纪念区 <ArrowRight size={14}/></a></section>
     </main><Footer />
-  </>;
+  </div>;
 }
