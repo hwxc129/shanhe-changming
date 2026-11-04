@@ -5,7 +5,7 @@
 .player-inline-actions select { background: #1d2119; color: #e8ddc6; font-size: 12px; }
 .player-launch:hover { background: #ead1a0; }
 .history-slideshow { --player-line: #d2ba873b; position: fixed; inset: 0; z-index: 100; isolation: isolate; min-width: 0; display: grid; grid-template-rows: auto minmax(0,1fr) auto; background: var(--festival-surface, #101610); color: #efecdf; padding: 22px clamp(20px,5vw,80px) max(18px,env(safe-area-inset-bottom)); overflow: auto; }
-.slide-scenery { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(180deg,var(--festival-surface,#101610) 0%,transparent 40%,#0c120da6), url("../public/art/river-mountains.svg") center / cover; opacity: .72; }
+.slide-scenery { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(180deg,var(--festival-surface,#101610) 0%,#10161033 45%,#0c120d66), url("../public/art/backgrounds/mountain-night.jpg") center / cover; opacity: .88; }
 .slide-header { display: flex; align-items: center; justify-content: space-between; gap: 18px; color: #c3b38f; font-size: 13px; letter-spacing: .12em; }
 .slide-close { display: inline-grid; place-items: center; width: 46px; height: 46px; background: #141b14d9; border: 1px solid #c7b37e50; color: #e3d3ad; }
 .slide-stage { display: grid; place-items: center; text-align: center; padding: 30px 0; }
@@ -27,14 +27,21 @@
 .slide-ending > small { margin-top: 25px; font-size: 12px; color: #abb39e; }
 .rocket-top { position: fixed; z-index: 20; right: 18px; bottom: max(18px,env(safe-area-inset-bottom)); width: 80px; display: grid; justify-items: center; padding: 0; border: 0; background: transparent; color: #e4c994; }
 .site-header .info-nav a:last-child { display: flex; }
-.rocket-visual { display: block; width: 78px; height: 130px; position: relative; overflow: hidden; border-radius: 12px; }
-.rocket-visual > img, .rocket-visual > video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
-.rocket-visual > img { filter: drop-shadow(0 4px 5px #0008); transition: opacity .15s ease; }
-.rocket-visual > video { opacity: 0; pointer-events: none; }
-.rocket-top.is-launching .rocket-visual > video { opacity: 1; }
-.rocket-top.is-launching .rocket-visual > img { opacity: 0; }
+.rocket-visual { display: block; width: 78px; height: 130px; position: relative; pointer-events: none; transform-origin: 50% 50%; }
+.rocket-visual > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 4px 5px #0008); }
+.rocket-top.is-launching .rocket-visual { transform: translate(var(--flight-x,0px),var(--flight-y,0px)) scale(var(--flight-scale,1)); opacity: var(--flight-opacity,1); will-change: transform,opacity; }
+.rocket-engine, .rocket-trail { position: absolute; opacity: 0; pointer-events: none; left: 50%; transform-origin: 50% 0; }
+.rocket-engine { top: 80%; width: 9%; height: 32%; border-radius: 35% 35% 60% 60%; background: linear-gradient(#fff6cd,#f4cf88 30%,#c8873c88 70%,transparent); mix-blend-mode: screen; }
+.rocket-trail { top: 91%; width: 22%; height: 115%; background: linear-gradient(#d8c3a465,#9aaba333 45%,transparent); border-radius: 40% 40% 60% 60%; filter: blur(5px); }
+.rocket-top.is-launching .rocket-engine { opacity: .9; transform: translateX(-50%) scaleY(var(--engine-scale,1)); filter: brightness(var(--engine-brightness,1)) drop-shadow(0 0 5px #dfb766); }
+.rocket-top.is-launching .rocket-trail { opacity: var(--trail-opacity,.5); transform: translateX(-50%) scaleY(var(--trail-scale,1)); }
+.rocket-top.is-launching .rocket-caption { opacity: 0; }
+.rocket-top.is-launching { cursor: default; }
 .rocket-caption { margin-top: -3px; display: block; padding: 4px 9px; border: 1px solid #c2a46a66; border-radius: 5px; background: #131b15ed; font-size: 10px; white-space: nowrap; }
 .rocket-top:hover .rocket-caption { background: #242d1e; border-color: #d4b97d; }
+.hero-scenery { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: .78; pointer-events: none; }
+.hero .hero-vignette { background: linear-gradient(90deg,#10160fce 0%,#10160f66 45%,#10160f12 80%),linear-gradient(0deg,#10120f,transparent 30%); }
+.festival-active .hero-scenery { opacity: .52; }
 .story-feedback { display: inline-flex; align-items: center; min-height: 40px; font-size: 12px; color: #b6b99f; text-decoration: underline; text-underline-offset: 4px; }
 .festival-sources { max-width: 580px; margin-block: 12px; font-size: 12px; color: #edddc0; }
 .festival-sources summary { cursor: pointer; width: fit-content; padding-block: 5px; }
@@ -78,6 +85,8 @@
   .rocket-top { right: 7px; bottom: max(12px,env(safe-area-inset-bottom)); width: 56px; }
   .rocket-visual { width: 54px; height: 90px; }
   .rocket-caption { font-size: 9px; padding: 4px 6px; }
+  .hero-scenery { object-position: 64% center; opacity: .6; }
+  .hero .hero-vignette { background: linear-gradient(180deg,#10160f33,#10160f99 55%,#10120f); }
   .player-inline-actions { gap: 12px; }
   .player-inline-actions > span { width: 100%; font-size: 11px; }
   .feedback-form input, .feedback-form select, .feedback-form textarea { font-size: 16px; }

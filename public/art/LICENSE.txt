@@ -2,7 +2,7 @@
 作者署名：禁忘记历史
 
 本目录 river-mountains.svg、candle-mark.svg 为本项目原创矢量图形。
-rocket/rocket-poster.png、rocket/rocket-liftoff.webm、rocket/rocket-liftoff.mp4，以及app/china-calendar.tsx中原创灯笼/月亮/船形SVG，
+rocket/rocket-poster.png、rocket/rocket-liftoff.webm、rocket/rocket-liftoff.mp4、backgrounds/mountain-dawn.jpg、backgrounds/mountain-night.jpg，以及app/china-calendar.tsx中原创灯笼/月亮/船形SVG，
 以及本站原创山河SVG与CSS蜡烛图形亦按本许可开放。其他代码不因此自动适用本许可。
 依用户要求，以 CC0 1.0 Universal 提供，可自由使用、修改和分发。
 许可全文：https://creativecommons.org/publicdomain/zero/1.0/legalcode
@@ -10,3 +10,4 @@ rocket/rocket-poster.png、rocket/rocket-liftoff.webm、rocket/rocket-liftoff.mp
 本站使用的 Lucide 界面图标另按其 ISC 许可证提供，见 /third-party-notices.txt。
 
 火箭图片由AI生成，短片基于该图制作；不属于实拍照片或历史影像，不对应真实导弹型号。
+两张山河背景由AI生成，仅作装饰，不是历史影像或具体地点的实拍。

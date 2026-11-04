@@ -20,7 +20,6 @@ export function Footer() {
     <nav aria-label="页尾导航"><a href={siteHref("/festivals/")}>中国节日</a><a href={siteHref("/share/")}>分享与部署</a><a href={siteHref("/feedback/")}>意见反馈</a><a href={siteHref("/about/")}>收录与核对</a><a href={siteHref("/privacy/")}>隐私说明</a></nav>
   </footer>;
 }
-function MountainScene() { return <svg className="mountains" viewBox="0 0 1600 500" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="mountain-fade" x2="0" y2="1"><stop stopColor="#807052" stopOpacity=".2"/><stop offset="1" stopColor="#11130f" stopOpacity="0"/></linearGradient></defs><path fill="url(#mountain-fade)" d="M0 220 80 198 146 238 232 132 270 148 350 105 410 174 480 145 570 234 638 183 720 242 804 147 870 165 940 80 1020 136 1082 119 1170 192 1234 154 1320 224 1392 115 1470 158 1530 130 1600 204V500H0Z"/><path fill="#20251b" fillOpacity=".57" d="m0 304 113-58 72 30 97-55 80 66 92-11 109 60 108-50 79 62 110-34 91 25 91-76 115 59 104-29 86 46 107-20 145 17V500H0Z"/><path fill="#151a12" d="M0 413 175 369 290 398 417 343 559 404 706 377 867 412 1017 357 1152 409 1300 368 1420 397 1600 350V500H0Z"/></svg>; }
 function Candle({ lit }: { lit: boolean }) { return <div className={`candle-scene ${lit ? "is-lit" : ""}`} aria-hidden="true"><div className="memorial-orbit orbit-one"/><div className="memorial-orbit orbit-two"/><div className="scene-mist"/><div className="candle-glow"/><div className="candle-flame"><div className="flame-core"/></div><div className="candle-sparks"><i/><i/><i/></div><div className="candle-wick"/><div className="candle-body"><div className="candle-top"/><i className="wax-drip drip-one"/><i className="wax-drip drip-two"/><span className="candle-engraving">长<br/>明</span></div><div className="candle-holder"/><div className="candle-ground"/><span className="scene-side-note">山河铭记 · 薪火长存</span></div>; }
 
 export default function Memorial({ initialStats }: { initialStats: Stats | null }) {
@@ -84,7 +83,8 @@ export default function Memorial({ initialStats }: { initialStats: Stats | null 
     <ChinaCalendarStrip day={day} />
     <main>
       <section className="hero" id="memorial" aria-labelledby="hero-title">
-        <div className="hero-vignette"/><MountainScene />
+        <img className="hero-scenery" src={siteHref("/art/backgrounds/mountain-dawn.jpg")} width="1680" height="946" alt="" fetchPriority="high" />
+        <div className="hero-vignette"/>
         <div className="hero-inner"><div className="hero-copy"><div className="eyebrow"><span/>铭记来路 · 守望和平</div><h1 id="hero-title">山河长明<span>致敬英雄</span></h1><p className="hero-description">致敬中国历史上的英雄，<br/>缅怀为国家和人民作出牺牲的人们。</p>
           <div className="candle-action"><button className={`light-button ${isLit ? "completed" : ""}`} onClick={light} disabled={busy || !me?.ready || !me.can_light}>{isLit ? <Check size={18}/> : <Flame size={19} strokeWidth={1.5}/>}<span>{buttonLabel}</span>{!isLit && <ArrowRight size={17}/>}</button><span className="action-caption">每日一烛，寄托思念</span></div>
           <p className={`candle-feedback ${error ? "has-error" : ""}`} role="status" aria-live="polite">{error || notice || (isLit ? "你的敬意已被记录，明日可再次点亮。" : "无需登录 · 同一浏览器每天一次")}{error && <><button className="text-button" onClick={() => { void prepare(); void refreshStats(); }}>重新连接</button><a className="text-button" href={backupSite} target="_blank" rel="noopener noreferrer">备用站点</a></>}</p>
