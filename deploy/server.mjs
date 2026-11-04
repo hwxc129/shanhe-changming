@@ -22,7 +22,7 @@ const secureHeaders = {
   "X-Content-Type-Options": "nosniff", "Referrer-Policy": "strict-origin-when-cross-origin",
   "Permissions-Policy": "camera=(), microphone=(), geolocation=()", "X-Frame-Options": "SAMEORIGIN",
 };
-const types = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".mp3": "audio/mpeg", ".txt": "text/plain; charset=utf-8", ".json": "application/json; charset=utf-8", ".zip": "application/zip" };
+const types = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".webm": "video/webm", ".mp4": "video/mp4", ".mp3": "audio/mpeg", ".txt": "text/plain; charset=utf-8", ".json": "application/json; charset=utf-8", ".zip": "application/zip" };
 
 async function boundedBody(incoming) {
   return new Promise((resolveBody, reject) => {

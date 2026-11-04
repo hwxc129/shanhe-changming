@@ -24,7 +24,7 @@ export default function About() {
     <p>事件目录显示名称、时间、类型、地区和所属事件等简要字段。历史故事使用本站编写的短文，每章附可展开的交叉核对来源链接。本站纪念文案、配乐、烛光与山河图形为自主制作。</p>
     <h2>配乐与图形</h2>
     <p>《山河长明》为本站原创合成器纪念组曲，含序曲、主题、变奏、间奏、发展、再现与尾声。播放由访客主动开启，可暂停、调节音量或关闭。本站原创山河背景与烛光图标以<a className="inline-link" href={siteHref("/art/LICENSE.txt")}>CC0 1.0 开放许可</a>提供，未使用历史照片或他人音乐录音。界面使用的 Lucide 图标另依其 ISC 许可。</p>
-    <p>回顶部按钮用原创示意图依次致意东风一号、东风二号、东风-41与东风-61。末项采用2025年阅兵公开展示节点，并非完整装备谱系或实时型号排行。名称与公开节点依据<a className="inline-link" href="https://handandangshi.gov.cn/dangshitupian/326.html" target="_blank" rel="noreferrer">邯郸党史网</a>、<a className="inline-link" href="https://www.81.cn/js_208592/16470477.html" target="_blank" rel="noreferrer">中国军网</a>及<a className="inline-link" href="https://www.news.cn/20250903/c8fe66e10cc048a49f6acc5d99902dae/c.html" target="_blank" rel="noreferrer">新华社</a>已公开资料。</p>
+    <p>右下角的回顶部按钮使用AI生成的统一写实火箭图，点击播放由该图制作的无声升空短片。它是视觉示意，不是历史实拍，也不对应某个真实导弹型号。减少动态效果设置开启时直接返回顶部。</p>
     <h2>一日一烛</h2>
     <p>同一浏览器每天可以点亮一次，按北京时间零点划分自然日。只有主动点击且服务器确认成功才会计数。今日与累计数字表示有效点烛次数，不表示真实独立人数。点烛记录持续保存，与固定事件目录分开处理。</p>
     <p>“本浏览器打卡”显示当前匿名身份累计有效参与的次数。更换浏览器、清除数据或切换不同站点来源后，无法自动识别为同一身份。希望分享入口或独立部署，可以前往<a className="inline-link" href={siteHref("/share/")}>分享与部署</a>。</p>
