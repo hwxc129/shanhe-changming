@@ -27,5 +27,6 @@ export default function About() {
     <p>回顶部按钮用原创示意图依次致意东风一号、东风二号、东风-41与东风-61。末项采用2025年阅兵公开展示节点，并非完整装备谱系或实时型号排行。名称与公开节点依据<a className="inline-link" href="https://handandangshi.gov.cn/dangshitupian/326.html" target="_blank" rel="noreferrer">邯郸党史网</a>、<a className="inline-link" href="https://www.81.cn/js_208592/16470477.html" target="_blank" rel="noreferrer">中国军网</a>及<a className="inline-link" href="https://www.news.cn/20250903/c8fe66e10cc048a49f6acc5d99902dae/c.html" target="_blank" rel="noreferrer">新华社</a>已公开资料。</p>
     <h2>一日一烛</h2>
     <p>同一浏览器每天可以点亮一次，按北京时间零点划分自然日。只有主动点击且服务器确认成功才会计数。今日与累计数字表示有效点烛次数，不表示真实独立人数。点烛记录持续保存，与固定事件目录分开处理。</p>
+    <p>“本浏览器打卡”显示当前匿名身份累计有效参与的次数。更换浏览器、清除数据或切换不同站点来源后，无法自动识别为同一身份。希望分享入口或独立部署，可以前往<a className="inline-link" href={siteHref("/share/")}>分享与部署</a>。</p>
   </InfoPage>;
 }

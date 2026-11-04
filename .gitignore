@@ -47,3 +47,5 @@ yarn-error.log*
 
 # GitHub Pages build output
 /dist-pages/
+/dist-bundles/
+/public/downloads/

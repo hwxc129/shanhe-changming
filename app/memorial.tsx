@@ -5,18 +5,19 @@ import HistoryTimeline from "./history-timeline";
 import StoryJourney from "./story-journey";
 import { ChinaCalendarStrip, FestivalMark, festivalStyle } from "./china-calendar";
 import { useChinaDay } from "../hooks/use-china-day";
-import { request, post, siteHref, backupSite } from "../lib/api-client";
+import { request, post, siteHref, backupSite, operationKey } from "../lib/api-client";
 import { SITE_AUTHOR } from "../lib/site-meta";
 import RocketTop from "./rocket-top";
+import { isLocalOnly } from "../lib/api-client";
 
 type Stats = { today_count: number; total_count: number; business_date: string; as_of: string };
-type Me = { ready: boolean; today_state: string; can_light: boolean; business_date: string; next_reset_at: string };
+type Me = { browser_total_count: number; ready: boolean; today_state: string; can_light: boolean; business_date: string; next_reset_at: string };
 export function Brand() { return <a className="brand" href={siteHref("/")} aria-label="山河长明 首页"><span className="brand-mark"><img src={siteHref("/art/candle-mark.svg")} width="18" height="26" alt="" /></span><span>山河长明<span className="brand-caption">铭记历史 · 致敬英雄</span></span></a>; }
 export function Footer() {
   return <footer className="site-footer">
     <Brand />
     <div className="footer-credit"><span>作者：{SITE_AUTHOR}</span><p>以微光寄思念，以铭记守和平。</p></div>
-    <nav aria-label="页尾导航"><a href={siteHref("/festivals/")}>中国节日</a><a href={siteHref("/feedback/")}>意见反馈</a><a href={siteHref("/about/")}>收录与核对</a><a href={siteHref("/privacy/")}>隐私说明</a></nav>
+    <nav aria-label="页尾导航"><a href={siteHref("/festivals/")}>中国节日</a><a href={siteHref("/share/")}>分享与部署</a><a href={siteHref("/feedback/")}>意见反馈</a><a href={siteHref("/about/")}>收录与核对</a><a href={siteHref("/privacy/")}>隐私说明</a></nav>
   </footer>;
 }
 function MountainScene() { return <svg className="mountains" viewBox="0 0 1600 500" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="mountain-fade" x2="0" y2="1"><stop stopColor="#807052" stopOpacity=".2"/><stop offset="1" stopColor="#11130f" stopOpacity="0"/></linearGradient></defs><path fill="url(#mountain-fade)" d="M0 220 80 198 146 238 232 132 270 148 350 105 410 174 480 145 570 234 638 183 720 242 804 147 870 165 940 80 1020 136 1082 119 1170 192 1234 154 1320 224 1392 115 1470 158 1530 130 1600 204V500H0Z"/><path fill="#20251b" fillOpacity=".57" d="m0 304 113-58 72 30 97-55 80 66 92-11 109 60 108-50 79 62 110-34 91 25 91-76 115 59 104-29 86 46 107-20 145 17V500H0Z"/><path fill="#151a12" d="M0 413 175 369 290 398 417 343 559 404 706 377 867 412 1017 357 1152 409 1300 368 1420 397 1600 350V500H0Z"/></svg>; }
@@ -34,7 +35,7 @@ export default function Memorial({ initialStats }: { initialStats: Stats | null 
   const [busy, setBusy] = useState(false); const [notice, setNotice] = useState(""); const [error, setError] = useState("");
   const pending = useRef<string | null>(null);
   const preparing = useRef(false);
-  const refreshStats = useCallback(async () => { try { setStats(await request<Stats>("/api/v1/candles/stats")); } catch { /* Preserve the last confirmed snapshot. */ } }, []);
+  const refreshStats = useCallback(async () => { if (isLocalOnly) return; try { setStats(await request<Stats>("/api/v1/candles/stats")); } catch { /* Preserve the last confirmed snapshot. */ } }, []);
   const refreshMe = useCallback(async () => { const state = await request<Me>("/api/v1/candles/me"); setMe(state); return state; }, []);
   const prepare = useCallback(async () => {
     if (preparing.current) return;
@@ -63,7 +64,7 @@ export default function Memorial({ initialStats }: { initialStats: Stats | null 
     if (busy) return; if (!me?.ready) { await prepare(); return; } if (!me.can_light) return;
     setBusy(true); setError("");
     try {
-      pending.current ??= crypto.randomUUID();
+      pending.current ??= operationKey();
       const result = await post("/api/v1/candles", { idempotency_key: pending.current });
       const confirmed = await refreshMe();
       if (result.state !== "valid") throw new Error("今日暂无法参与，请稍后再来。");
@@ -87,10 +88,15 @@ export default function Memorial({ initialStats }: { initialStats: Stats | null 
         <div className="hero-inner"><div className="hero-copy"><div className="eyebrow"><span/>铭记来路 · 守望和平</div><h1 id="hero-title">山河长明<span>致敬英雄</span></h1><p className="hero-description">致敬中国历史上的英雄，<br/>缅怀为国家和人民作出牺牲的人们。</p>
           <div className="candle-action"><button className={`light-button ${isLit ? "completed" : ""}`} onClick={light} disabled={busy || !me?.ready || !me.can_light}>{isLit ? <Check size={18}/> : <Flame size={19} strokeWidth={1.5}/>}<span>{buttonLabel}</span>{!isLit && <ArrowRight size={17}/>}</button><span className="action-caption">每日一烛，寄托思念</span></div>
           <p className={`candle-feedback ${error ? "has-error" : ""}`} role="status" aria-live="polite">{error || notice || (isLit ? "你的敬意已被记录，明日可再次点亮。" : "无需登录 · 同一浏览器每天一次")}{error && <><button className="text-button" onClick={() => { void prepare(); void refreshStats(); }}>重新连接</button><a className="text-button" href={backupSite} target="_blank" rel="noopener noreferrer">备用站点</a></>}</p>
-          <div className="memorial-stats" aria-label="点烛统计"><div><span className="stat-value">{stats ? stats.today_count.toLocaleString("zh-CN") : "—"}</span><span>今日点亮<span className="stat-unit"> / 次</span></span></div><div><span className="stat-value">{stats ? stats.total_count.toLocaleString("zh-CN") : "—"}</span><span>累计点亮<span className="stat-unit"> / 次</span></span></div><p>{import.meta.env.DEV ? "本地预览数据，与公网独立。" : "每一份敬意，都值得被记得。"}</p></div>
+          <div className={`memorial-stats ${isLocalOnly ? "local-stats" : ""}`} aria-label="点烛统计">
+            {!isLocalOnly && <><div><span className="stat-value">{stats ? stats.today_count.toLocaleString("zh-CN") : "—"}</span><span>今日点亮<span className="stat-unit"> / 次</span></span></div><div><span className="stat-value">{stats ? stats.total_count.toLocaleString("zh-CN") : "—"}</span><span>全站累计<span className="stat-unit"> / 次</span></span></div></>}
+            <div className="personal-checkins"><span className="stat-value">{typeof me?.browser_total_count === "number" ? me.browser_total_count.toLocaleString("zh-CN") : "—"}</span><span>本浏览器打卡<span className="stat-unit"> / 次</span></span></div>
+            <p>{isLocalOnly ? "记录仅在本浏览器保存，清除数据后重置。" : "按当前浏览器记录，清除数据后重新计算。"}</p>
+          </div>
           <div className="hero-reading-links">
             <a className="hero-player-link" href="#stories"><BookOpen size={15} aria-hidden="true" /> 阅读历史故事</a>
             <a className="hero-player-link" href="#timeline-player"><Play size={14} aria-hidden="true" /> 历史展映 <ArrowRight size={14} aria-hidden="true" /></a>
+            <a className="hero-player-link" href={siteHref("/share/")}>分享与部署 <ArrowRight size={14} aria-hidden="true" /></a>
           </div>
           {festival && <a className="hero-festival-link" href={siteHref("/festivals/")}>
             <FestivalMark motif={festival.motif} /> <span>{day?.festivals.map(item => item.name).join(" · ")}</span> <ArrowRight size={14} aria-hidden="true" />

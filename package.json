@@ -13,10 +13,13 @@
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate",
     "check": "tsc --noEmit",
-    "test": "node --experimental-strip-types --test tests/rules.test.ts",
-    "build:pages": "vite build --config vite.pages.config.ts && node scripts/finalize-pages.mjs",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "build:pages": "npm run build:downloads && vite build --config vite.pages.config.ts && node scripts/finalize-pages.mjs",
     "dev:pages": "vite --config vite.pages.config.ts --host 127.0.0.1 --port 5174",
-    "test:http": "node scripts/test-http-isolated.mjs"
+    "test:http": "node scripts/test-http-isolated.mjs",
+    "build:downloads": "node scripts/build-downloads.mjs",
+    "start:selfhost": "node dist-bundles/server/server.mjs",
+    "test:selfhost": "node tests/selfhost-check.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
@@ -56,6 +59,7 @@
     "drizzle-kit": "0.31.10",
     "eslint": "9.39.4",
     "eslint-config-next": "16.4.5",
+    "fflate": "0.8.3",
     "json-rpc-2.0": "1.7.1",
     "raw-body": "3.0.2",
     "react-server-dom-webpack": "19.2.8",

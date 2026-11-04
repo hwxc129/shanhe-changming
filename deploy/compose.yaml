@@ -1,0 +1,15 @@
+services:
+  memorial:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${LISTEN_ADDRESS:-127.0.0.1}:${PORT:-3000}:3000"
+    environment:
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-http://localhost:3000}
+      DATA_FILE: /app/data/candles.sqlite
+    volumes:
+      - memorial-data:/app/data
+    security_opt:
+      - no-new-privileges:true
+volumes:
+  memorial-data:

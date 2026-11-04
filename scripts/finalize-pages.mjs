@@ -1,7 +1,9 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-const output = new URL("../dist-pages/", import.meta.url);
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
+const output = pathToFileURL(resolve(import.meta.dirname, "..", process.env.VITE_OUTPUT_DIR || "dist-pages") + "/");
 const html = await readFile(new URL("index.html", output), "utf8");
-for (const page of ["about", "privacy", "festivals", "feedback"]) {
+for (const page of ["about", "privacy", "festivals", "feedback", "share"]) {
   await mkdir(new URL(page + "/", output), { recursive: true });
   await writeFile(new URL(page + "/index.html", output), html);
 }

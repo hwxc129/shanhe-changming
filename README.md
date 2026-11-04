@@ -9,12 +9,30 @@
 
 完整前台由GitHub Pages托管。每日资格与纪念流水由Cloudflare Workers / D1服务保存，计数不是静态演示数据。GitHub Pages不提供服务端代码运行环境，说明见[GitHub官方文档](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site)。
 
+## 分享与独立部署
+
+打开网站的“分享与部署”页面，可以复制网站链接、调用设备分享菜单、复制无需脚本的入口卡片HTML，以及下载以下两种安装包。
+
+| 方式 | 安装方法 | 打卡与统计 |
+| --- | --- | --- |
+| 网页入口 | 把入口HTML放进已有网页 | 点击后进入所分享的纪念站 |
+| 完整服务器版 | 解压服务器包，按README设置自己的域名，使用Docker Compose或Node.js启动 | 自己的SQLite持久记录、全站累计、本浏览器累计 |
+| 纯静态版 | 上传包内`shanhe-changming`文件夹到网站根目录 | 仅在当前浏览器保存纪念日期，不连接原站点烛API，不显示全站统计 |
+
+`npm run build:downloads`从源码构建两个已经包含界面的包，输出到忽略跟踪的`public/downloads/`；中间产物为`dist-bundles/`。完整服务器包运行时无需安装npm依赖，也不含Cloudflare绑定、原站访客数据或账号凭据。纯静态版可访问`https://自己的域名/shanhe-changming/`，请保留文件夹名称。
+
+已有Node.js时可在源码中运行`npm run build:downloads`后执行`npm run start:selfhost`。完整包默认使用`http://localhost:3000`，正式部署配置`PUBLIC_ORIGIN=https://自己的域名`；默认运行文档见`deploy/服务器版使用说明.md`。Docker配置仅放在包内，源码根目录不直接作为Docker构建上下文。
+
+“本浏览器打卡”使用当前匿名身份的有效点烛记录，不是永久物理设备识别。清除浏览器数据、更换浏览器、域名或站点来源后会重新识别。独立部署站点不自动继承或同步原站记录。纯静态记录可由浏览器所有者修改，不作为防作弊签到。
+
+安装包的Node独立启动、50并发单次计数、重启保留记录、来源校验、私有文件隔离与音频Range请求由`npm run test:selfhost`验证。Docker容器实际启动尚未在本机验证：本机没有运行Docker服务/Compose组件。
+
 ## 固定数据，无管理后台
 
 - 本版187个已交叉核对的事件条目，包含《共同纲领》通过和开国大典。
 - `data/catalog.json`仅包含名称、别名与检索所需编目字段；`data/catalog.lock.json`锁定本版数量、版本和SHA-256摘要。
 - 目录始终从源码读取，不读取旧版可编辑目录表，公众只能获得ID、名称、时间、类型、地区与所属事件等简要编目字段。
-- 已移除管理页面、目录编辑接口、审核发布功能及更正表单。`/admin`、`/api/admin`、`/corrections`与`/api/v1/corrections`返回404，事件接口的写入方法返回405。
+- 已移除管理页面、目录编辑接口、审核发布功能及旧更正路由；新的意见反馈只生成GitHub建议草稿。`/admin`、`/api/admin`、`/corrections`与`/api/v1/corrections`返回404，事件接口的写入方法返回405。
 - 事件目录的核对笔记另行保留。七章历史故事的短文与核对链接位于 `data/history-stories.ts`。
 - “禁止修改”指网站运行时不存在内容编辑能力。源码所有者仍能发布新版本；确需更正时，应重新核对、审查修改、更新发布锁，再发布。
 - 点烛记录继续正常新增，与固定事件目录分开处理。
@@ -33,7 +51,7 @@
 
 ## 每日点烛
 
-按北京时间自然日，每个匿名浏览器一次；数据库唯一约束、原子批处理与请求幂等保证重复提交不会重复计数。统计表示有效点烛次数，不是真实独立人数。
+按北京时间自然日，每个匿名浏览器一次；数据库唯一约束、原子批处理与请求幂等保证重复提交不会重复计数。全站统计表示有效点烛次数，不是真实独立人数；`/api/v1/candles/me`另返回当前身份的`browser_total_count`，不会开放其他访客的个人累计。
 
 GitHub Pages使用随机匿名标识、必要的第一方浏览器存储与受限来源的跨站API，不依赖第三方Cookie。服务器只保存标识的SHA-256摘要。直接访问备用站点使用HttpOnly第一方Cookie。清除存储、无痕模式、跨设备或跨站点来源会产生不同身份；多人共用浏览器共用当日资格。
 
@@ -59,6 +77,8 @@ npm run check
 npm test
 npm run build:pages
 ```
+
+该构建同时生成自部署下载包，CI不需要生产密钥或数据库访问。
 
 输出在`dist-pages/`。可用`npm run dev:pages`预览前台；默认连接已发布的点烛服务，检验点烛写入时只在本机服务上操作。支持`VITE_CANDLE_API_ORIGIN`和`VITE_PAGES_BASE`覆盖预览配置。更换前台域名时同步审查`lib/public-api.ts`的精确来源白名单。
 
