@@ -3,6 +3,7 @@ import { env } from "cloudflare:workers";
 import { businessDayAt, nextDayResetAt } from "./rules";
 import { readCatalog } from "./catalog";
 import { allowedPublicOrigin } from "./public-api";
+import { BodyError, readBoundedJson } from "./request-body";
 
 export class AppError extends Error { constructor(public status: number, message: string) { super(message); } }
 export function d1(): D1Database { if (!env.DB) throw new AppError(503, "服务暂时不可用，请稍后重试。"); return env.DB; }
@@ -10,7 +11,7 @@ export function json(data: unknown, status = 200, extra: Record<string, string> 
   return Response.json(data, { status, headers: { "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff", ...extra } });
 }
 export function routeError(error: unknown) {
-  if (error instanceof AppError) return json({ error: error.message }, error.status);
+  if (error instanceof AppError || error instanceof BodyError) return json({ error: error.message }, error.status);
   console.error("request_failed", error instanceof Error ? error.name : "unknown");
   return json({ error: "服务暂时不可用，请稍后重试。" }, 503);
 }
@@ -21,10 +22,7 @@ export function assertSameOrigin(request: Request) {
   if (!origin || (!allowed.has(origin) && !publicClient) || (request.headers.get("sec-fetch-site") === "cross-site" && !publicClient)) throw new AppError(403, "请从本站发起操作。");
 }
 export async function bodyJson(request: Request) {
-  if (!request.headers.get("content-type")?.includes("application/json")) throw new AppError(415, "请使用正确的数据格式。");
-  const text = await request.text();
-  if (text.length > 25_000) throw new AppError(413, "提交内容过长。");
-  try { return JSON.parse(text); } catch { throw new AppError(400, "提交内容格式不正确。"); }
+  return readBoundedJson(request);
 }
 export async function digest(text: string) { return Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text))), b => b.toString(16).padStart(2, "0")).join(""); }
 export const visitorCookieName = (request: Request) => new URL(request.url).protocol === "https:" ? "__Host-shanhe_visitor" : "shanhe_visitor_dev";

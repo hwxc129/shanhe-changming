@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { SITE_AUTHOR } from "../lib/site-meta";
 
 export const metadata: Metadata = {
   title: "山河长明 · 铭记历史 致敬英雄",
   description: "为英雄点亮一支蜡烛。1840至1949年侵略与抵抗历史时间线，铭记来路，守望和平。",
+  authors: [{ name: SITE_AUTHOR }],
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

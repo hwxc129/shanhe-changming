@@ -6,13 +6,21 @@ import StoryJourney from "./story-journey";
 import { ChinaCalendarStrip, FestivalMark, festivalStyle } from "./china-calendar";
 import { useChinaDay } from "../hooks/use-china-day";
 import { request, post, siteHref, backupSite } from "../lib/api-client";
+import { SITE_AUTHOR } from "../lib/site-meta";
+import RocketTop from "./rocket-top";
 
 type Stats = { today_count: number; total_count: number; business_date: string; as_of: string };
 type Me = { ready: boolean; today_state: string; can_light: boolean; business_date: string; next_reset_at: string };
-export function Brand() { return <a className="brand" href={siteHref("/")} aria-label="山河长明 首页"><span className="brand-mark"><Flame size={19} strokeWidth={1.2} /></span><span>山河长明<span className="brand-caption">铭记历史 · 致敬英雄</span></span></a>; }
-export function Footer() { return <footer className="site-footer"><Brand /><p>以微光寄思念，以铭记守和平。</p><div><a href={siteHref("/about/")}>收录与核对</a><a href={siteHref("/privacy/")}>隐私说明</a></div></footer>; }
+export function Brand() { return <a className="brand" href={siteHref("/")} aria-label="山河长明 首页"><span className="brand-mark"><img src={siteHref("/art/candle-mark.svg")} width="18" height="26" alt="" /></span><span>山河长明<span className="brand-caption">铭记历史 · 致敬英雄</span></span></a>; }
+export function Footer() {
+  return <footer className="site-footer">
+    <Brand />
+    <div className="footer-credit"><span>作者：{SITE_AUTHOR}</span><p>以微光寄思念，以铭记守和平。</p></div>
+    <nav aria-label="页尾导航"><a href={siteHref("/festivals/")}>中国节日</a><a href={siteHref("/feedback/")}>意见反馈</a><a href={siteHref("/about/")}>收录与核对</a><a href={siteHref("/privacy/")}>隐私说明</a></nav>
+  </footer>;
+}
 function MountainScene() { return <svg className="mountains" viewBox="0 0 1600 500" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="mountain-fade" x2="0" y2="1"><stop stopColor="#807052" stopOpacity=".2"/><stop offset="1" stopColor="#11130f" stopOpacity="0"/></linearGradient></defs><path fill="url(#mountain-fade)" d="M0 220 80 198 146 238 232 132 270 148 350 105 410 174 480 145 570 234 638 183 720 242 804 147 870 165 940 80 1020 136 1082 119 1170 192 1234 154 1320 224 1392 115 1470 158 1530 130 1600 204V500H0Z"/><path fill="#20251b" fillOpacity=".57" d="m0 304 113-58 72 30 97-55 80 66 92-11 109 60 108-50 79 62 110-34 91 25 91-76 115 59 104-29 86 46 107-20 145 17V500H0Z"/><path fill="#151a12" d="M0 413 175 369 290 398 417 343 559 404 706 377 867 412 1017 357 1152 409 1300 368 1420 397 1600 350V500H0Z"/></svg>; }
-function Candle({ lit }: { lit: boolean }) { return <div className={`candle-scene ${lit ? "is-lit" : ""}`} aria-hidden="true"><div className="memorial-orbit orbit-one"/><div className="memorial-orbit orbit-two"/><div className="scene-mist"/><div className="candle-glow"/><div className="candle-flame"><div className="flame-core"/></div><div className="candle-wick"/><div className="candle-body"><div className="candle-top"/><i className="wax-drip drip-one"/><i className="wax-drip drip-two"/><span className="candle-engraving">长<br/>明</span></div><div className="candle-holder"/><div className="candle-ground"/><span className="scene-side-note">山河铭记 · 薪火长存</span></div>; }
+function Candle({ lit }: { lit: boolean }) { return <div className={`candle-scene ${lit ? "is-lit" : ""}`} aria-hidden="true"><div className="memorial-orbit orbit-one"/><div className="memorial-orbit orbit-two"/><div className="scene-mist"/><div className="candle-glow"/><div className="candle-flame"><div className="flame-core"/></div><div className="candle-sparks"><i/><i/><i/></div><div className="candle-wick"/><div className="candle-body"><div className="candle-top"/><i className="wax-drip drip-one"/><i className="wax-drip drip-two"/><span className="candle-engraving">长<br/>明</span></div><div className="candle-holder"/><div className="candle-ground"/><span className="scene-side-note">山河铭记 · 薪火长存</span></div>; }
 
 export default function Memorial({ initialStats }: { initialStats: Stats | null }) {
   const day = useChinaDay();
@@ -71,7 +79,7 @@ export default function Memorial({ initialStats }: { initialStats: Stats | null 
   const buttonLabel = busy ? "正在点亮" : isLit ? "今日已点亮" : me?.today_state === "unavailable" ? "今日暂无法参与" : "点亮一支蜡烛";
   return <div className={festival ? "memorial-page festival-active" : "memorial-page"} style={festivalStyle(festival)}>
     <a className="skip-link" href="#events">跳到事件目录</a>
-    <header className="site-header"><Brand /><nav aria-label="主导航"><a className="active" href="#memorial">纪念</a><a href="#events">历史时间线</a><a href={siteHref("/about/")}>关于本站</a></nav><span className="header-note">心怀敬意 · 珍爱和平</span></header>
+    <header className="site-header"><Brand /><nav className="memorial-nav" aria-label="主导航"><a href="#stories" aria-label="历史故事"><span className="nav-prefix">历史</span>故事</a><a href="#events" aria-label="历史时间线"><span className="nav-prefix">历史</span>时间线</a><a href={siteHref("/festivals/")}>节日</a></nav><span className="header-note">心怀敬意 · 珍爱和平</span></header>
     <ChinaCalendarStrip day={day} />
     <main>
       <section className="hero" id="memorial" aria-labelledby="hero-title">
@@ -85,7 +93,7 @@ export default function Memorial({ initialStats }: { initialStats: Stats | null 
             <a className="hero-player-link" href="#timeline-player"><Play size={14} aria-hidden="true" /> 历史展映 <ArrowRight size={14} aria-hidden="true" /></a>
           </div>
           {festival && <a className="hero-festival-link" href={siteHref("/festivals/")}>
-            <FestivalMark motif={festival.motif} /> <span>{festival.name}</span> <ArrowRight size={14} aria-hidden="true" />
+            <FestivalMark motif={festival.motif} /> <span>{day?.festivals.map(item => item.name).join(" · ")}</span> <ArrowRight size={14} aria-hidden="true" />
           </a>}
         </div><div className="hero-art"><Candle lit={!!isLit}/><span className="art-caption"><span/> 一烛微光，山河共念 <span/></span></div></div>
         <a className="scroll-note" href="#stories"><span>向下 · 循时铭记</span><ArrowDown size={14}/></a>
@@ -93,7 +101,8 @@ export default function Memorial({ initialStats }: { initialStats: Stats | null 
       </section>
       <StoryJourney />
       <HistoryTimeline />
-      <section className="closing"><Flame size={21} strokeWidth={1}/><p>山河无恙，吾辈自强。</p><span>让铭记成为日常，让和平走向长远。</span><a href="#memorial">回到纪念区 <ArrowRight size={14}/></a></section>
+      <section className="closing"><Flame size={21} strokeWidth={1}/><span>写给所有中国年轻人</span><p>铭记历史</p><span>作者：{SITE_AUTHOR}</span><a href="#memorial">回到纪念区 <ArrowRight size={14}/></a></section>
     </main><Footer />
+    <RocketTop />
   </div>;
 }

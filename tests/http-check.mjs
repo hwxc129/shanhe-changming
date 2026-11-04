@@ -5,11 +5,20 @@ assert.equal(process.env.MEMORIAL_ISOLATED_TEST, 'yes', 'Run npm run test:http: 
 const origin=process.env.TEST_ORIGIN;
 assert.ok(origin && new URL(origin).port !== '5173', 'Refuse to write to the interactive preview.');
 assert.ok(['localhost','127.0.0.1','[::1]'].includes(new URL(origin).hostname),'Write tests are restricted to local development.');
-async function req(path,options={}){const response=await fetch(origin+path,{...options,headers:{Origin:origin,...options.headers}});const text=await response.text();let data;try{data=JSON.parse(text);}catch{data={error:text.slice(0,100)};}return{status:response.status,headers:response.headers,data};}
+async function req(path,options={}){
+  try {
+    const response=await fetch(origin+path,{...options,signal:AbortSignal.timeout(30000),headers:{Origin:origin,...options.headers}});
+    const text=await response.text();let data;try{data=JSON.parse(text);}catch{data={error:text.slice(0,100)};}
+    return{status:response.status,headers:response.headers,data};
+  } catch(error) { throw new Error(`HTTP check failed: ${options.method||'GET'} ${path}`,{cause:error}); }
+}
 const headers=cookie=>({'Content-Type':'application/json',Cookie:cookie});
 async function identity(){const r=await req('/api/v1/visitors',{method:'POST'});assert.equal(r.status,200);const cookie=r.headers.get('set-cookie')?.split(';')[0];assert.ok(cookie);return cookie;}
 const before=(await req('/api/v1/candles/stats')).data.total_count;
-for(const path of ['/admin','/api/admin','/corrections','/api/v1/corrections'])for(const method of ['GET','POST'])assert.equal((await req(path,{method})).status,404,path+' '+method);
+const bounded=await req('/api/v1/candles',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({oversized:'中'.repeat(9000)})});assert.equal(bounded.status,413);
+assert.equal(bounded.headers.get('x-content-type-options'),'nosniff');
+assert.equal(bounded.headers.get('referrer-policy'),'strict-origin-when-cross-origin');
+for(const path of ['/admin','/admin/events','/api/admin','/api/admin/events','/corrections','/api/v1/corrections'])for(const method of ['GET','POST'])assert.equal((await req(path,{method})).status,404,path+' '+method);
 for(const method of ['POST','PUT','PATCH','DELETE'])assert.equal((await req('/api/v1/events',{method,headers:{'Content-Type':'application/json'},body:'{"name":"tampered"}'})).status,405,method);
 const missing=await req('/api/v1/candles',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({idempotency_key:crypto.randomUUID()})});assert.equal(missing.status,401);
 assert.equal((await req('/api/v1/visitors',{method:'POST',headers:{Origin:'https://foreign.invalid'}})).status,403);

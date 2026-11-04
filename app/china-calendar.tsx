@@ -45,7 +45,7 @@ export function ChinaCalendarStrip({ day, onFestivalPage = false }: { day: Retur
         {day && <><time dateTime={day.key}>{day.label}</time><span className="china-calendar-lunar">{day.lunarLabel}</span></>}
       </div>
       <div className="china-calendar-links">
-        {day?.theme && <span className="china-calendar-festival">{day.theme.name}</span>}
+        {!!day?.festivals.length && <span className="china-calendar-festival">{day.festivals.map(festival => festival.name).join(" · ")}</span>}
         {!onFestivalPage && <a href={siteHref("/festivals/")}>中国节日 <ArrowRight size={13} aria-hidden="true" /></a>}
       </div>
     </div>

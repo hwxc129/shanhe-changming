@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" fill="none">
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#182224"/><stop offset="1" stop-color="#101612"/></linearGradient>
+    <linearGradient id="river" x1="800" y1="400" x2="800" y2="900" gradientUnits="userSpaceOnUse"><stop stop-color="#bfa26b" stop-opacity=".08"/><stop offset="1" stop-color="#d1b983" stop-opacity=".18"/></linearGradient>
+  </defs>
+  <path fill="url(#sky)" d="M0 0h1600v900H0z"/>
+  <circle cx="1200" cy="180" r="70" stroke="#d7c196" stroke-opacity=".16"/>
+  <path fill="#2c3a36" fill-opacity=".5" d="m0 510 140-140 116 80 160-230 156 156 125-80 190 195 114-144 99 84 137-194 173 197 190-128v594H0z"/>
+  <path stroke="#b7c3af" stroke-opacity=".13" d="m0 510 140-140 116 80 160-230 156 156 125-80 190 195 114-144 99 84 137-194 173 197 190-128"/>
+  <path fill="#18251f" d="m0 655 192-108 122 51 160-99 181 131 130-79 201 138 173-79 179 55 262-103v338H0z"/>
+  <path fill="url(#river)" d="M795 571c-65 81 82 125 0 181-76 54-253 62-330 148h572c47-99-188-108-177-163 10-51-88-83-65-166Z"/>
+  <path stroke="#ccb584" stroke-opacity=".13" d="M650 840h418M718 791h206M770 740h86"/>
+</svg>

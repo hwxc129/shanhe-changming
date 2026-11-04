@@ -3,10 +3,23 @@ import { runWithConnectorBinding } from "../lib/connector-context";
 import type { ConnectorBinding } from "../lib/connector-contract.mjs";
 import { apiPreflight, withPublicCors } from "../lib/public-api";
 
+function secureResponse(response: Response) {
+  const secured = new Response(response.body, response);
+  secured.headers.set("X-Content-Type-Options", "nosniff");
+  secured.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  secured.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  return secured;
+}
+
 const worker = {
   async fetch(request: Request, env: Cloudflare.Env, ctx: ExecutionContext<{ CONNECTORS?: ConnectorBinding }>) {
+    const pathname = new URL(request.url).pathname;
+    // Retired write/admin namespaces must never fall through to framework rendering.
+    if (/^\/(?:admin|api\/admin|corrections|api\/v1\/corrections)(?:\/|$)/.test(pathname)) {
+      return secureResponse(Response.json({ error: "页面不存在。" }, { status: 404, headers: { "Cache-Control": "no-store" } }));
+    }
     const preflight = apiPreflight(request);
-    if (preflight) return preflight;
+    if (preflight) return secureResponse(preflight);
     let binding = ctx.props?.CONNECTORS;
     // Local preview emulates the same request-scoped capability. This branch and
     // the auxiliary service binding are absent from production builds.
@@ -27,7 +40,7 @@ const worker = {
       };
     }
     const response = await runWithConnectorBinding(binding, () => handler.fetch(request, env, ctx));
-    return withPublicCors(request, response);
+    return secureResponse(withPublicCors(request, response));
   },
 };
 

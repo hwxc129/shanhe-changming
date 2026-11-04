@@ -1,10 +1,13 @@
 import InfoPage from "../info-page";
 import { catalogOverview } from "../../lib/catalog";
+import { SITE_AUTHOR } from "../../lib/site-meta";
+import { siteHref } from "../../lib/api-client";
 export const metadata = { title: "收录与核对 · 山河长明" };
 export default function About() {
   const overview = catalogOverview();
   return <InfoPage title="关于山河长明">
     <p>山河长明，是一处铭记历史、致敬英雄的线上纪念空间。以一支蜡烛寄托敬意，以认真核对守护每一个历史名称。</p>
+    <p className="about-author">作者：{SITE_AUTHOR}</p>
     <h2>本版收录范围</h2>
     <p>本版固定收录{overview.total}个1840至1949年间的事件条目，涵盖外来侵略与抵抗、相关组织成立与军队改编、投降受降，以及新中国筹建和成立节点。纪念主题致敬中国历代英雄。</p>
     <p>当前目录仍有空白，不代表已经穷尽这一时期的事件或检索过全部官方网站。战争与其下属战役、战斗分别编目，条目数量不等于战争次数；没有条目也不表示某年没有相关事件。</p>
@@ -16,9 +19,12 @@ export default function About() {
     <p>先建立六个时期的主干目录，再按战争与战役补齐下属事件，继而逐省、逐市查找地方档案与小规模抵抗记录。每批核对转载关系、时间口径与重复名称，通过后进入下一次固定版本。</p>
     <p>地区索引依据条目已核地点，方便按省市相关地区浏览；境外、东北边境和全国性事件另列。跨区事件可能出现在多个地区，地区数量不等于事件总数。</p>
     <h2>固定目录</h2>
-    <p>目录作为发布版本的一部分保存。网站不设管理后台、编辑表单或目录修改接口，访客无法新增、修改或删除条目。以后更正或扩展目录，需要重新核对并发布新的源码版本。</p>
+    <p>目录作为发布版本的一部分保存。网站不设管理后台或目录修改接口，访客无法直接新增、修改或删除条目。可以通过<a className="inline-link" href={siteHref("/feedback/")}>意见与史实建议</a>提交线索；更正或扩展目录需要重新核对并发布新的源码版本。</p>
     <h2>事件目录与历史故事</h2>
     <p>事件目录显示名称、时间、类型、地区和所属事件等简要字段。历史故事使用本站编写的短文，每章附可展开的交叉核对来源链接。本站纪念文案、配乐、烛光与山河图形为自主制作。</p>
+    <h2>配乐与图形</h2>
+    <p>《山河长明》为本站原创合成器纪念组曲，含序曲、主题、变奏、间奏、发展、再现与尾声。播放由访客主动开启，可暂停、调节音量或关闭。本站原创山河背景与烛光图标以<a className="inline-link" href={siteHref("/art/LICENSE.txt")}>CC0 1.0 开放许可</a>提供，未使用历史照片或他人音乐录音。界面使用的 Lucide 图标另依其 ISC 许可。</p>
+    <p>回顶部按钮用原创示意图依次致意东风一号、东风二号、东风-41与东风-61。末项采用2025年阅兵公开展示节点，并非完整装备谱系或实时型号排行。名称与公开节点依据<a className="inline-link" href="https://handandangshi.gov.cn/dangshitupian/326.html" target="_blank" rel="noreferrer">邯郸党史网</a>、<a className="inline-link" href="https://www.81.cn/js_208592/16470477.html" target="_blank" rel="noreferrer">中国军网</a>及<a className="inline-link" href="https://www.news.cn/20250903/c8fe66e10cc048a49f6acc5d99902dae/c.html" target="_blank" rel="noreferrer">新华社</a>已公开资料。</p>
     <h2>一日一烛</h2>
     <p>同一浏览器每天可以点亮一次，按北京时间零点划分自然日。只有主动点击且服务器确认成功才会计数。今日与累计数字表示有效点烛次数，不表示真实独立人数。点烛记录持续保存，与固定事件目录分开处理。</p>
   </InfoPage>;

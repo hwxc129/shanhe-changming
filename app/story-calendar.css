@@ -34,6 +34,15 @@
   text-underline-offset: 5px;
 }
 .china-calendar-festival { font-family: var(--serif); }
+.china-calendar-links { max-width: 100%; }
+.china-calendar-festival { overflow-wrap: anywhere; }
+.site-footer .footer-credit { display: flex; flex-direction: column; gap: 5px; color: #d9c29b; }
+.footer-credit > span { font-size: 13px; }
+.footer-credit p { margin: 0; color: #a3ac98; font-size: 12px; }
+.site-footer > nav { display: flex; flex-wrap: wrap; gap: 12px 20px; font-size: 12px; color: #c9ccb9; }
+.site-footer > nav a { display: inline-flex; align-items: center; min-height: 40px; }
+.site-footer > nav a:hover { color: #e8ce9b; text-decoration: underline; text-underline-offset: 5px; }
+.about-author { color: #ddc295; border-bottom: 1px solid var(--line); padding-bottom: 22px; }
 .hero-reading-links { display: flex; flex-wrap: wrap; align-items: center; gap: 0 22px; }
 .hero-reading-links .hero-player-link { margin-top: 15px; }
 .festival-active .hero { background: var(--festival-surface); }
@@ -172,6 +181,12 @@
   .story-chapter { grid-template-columns: 48px minmax(0, 1fr); gap: 12px; padding-inline: 18px; }
 }
 @media(max-width:760px) {
+  .site-header .memorial-nav { gap: 15px; }
+  .site-header .memorial-nav a:last-child { display: inline-flex; }
+  .memorial-nav .nav-prefix { display: none; }
+  .site-footer { align-items: flex-start; }
+  .site-footer .footer-credit { width: 100%; gap: 2px; }
+  .site-footer > nav { width: 100%; justify-content: space-between; }
   .china-calendar-inner { padding: 7px 6%; }
   .china-calendar-date, .china-calendar-links { font-size: 11px; gap: 3px 7px; }
   .china-calendar-links a { min-height: 30px; }

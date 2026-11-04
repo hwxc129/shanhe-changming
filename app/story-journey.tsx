@@ -1,5 +1,6 @@
 import { ArrowRight, BookOpen, ExternalLink } from "lucide-react";
 import { stories } from "../data/history-stories";
+import { siteHref } from "../lib/api-client";
 
 export default function StoryJourney() {
   return <section className="story-journey" id="stories" aria-labelledby="stories-title">
@@ -31,6 +32,7 @@ export default function StoryJourney() {
                   <a href={url} target="_blank" rel="noreferrer">{institution} · {title} <ExternalLink size={12} aria-hidden="true" /></a>
                 </li>)}</ul>
               </details>
+              <a className="story-feedback" href={siteHref(`/feedback/?event=${encodeURIComponent(story.title)}`)}>建议修订这一章</a>
             </div>
           </article>
         </li>)}

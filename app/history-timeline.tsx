@@ -6,6 +6,7 @@ import { PERIODS } from "../lib/rules";
 import TimelinePlayer from "./timeline-player";
 
 const overview = catalogOverview();
+const allEntries = filterCatalog();
 export default function HistoryTimeline() {
   const [query, setQuery] = useState("");
   const [period, setPeriod] = useState("all");
@@ -51,7 +52,7 @@ export default function HistoryTimeline() {
         <div className="history-main">
           <div className="history-tools"><label className="timeline-search"><Search size={17}/><input aria-label="搜索事件名称或时间" placeholder="搜索名称、地区或年份" value={query} onChange={e => { setQuery(e.target.value); setVisible(24); }} maxLength={100}/>{query && <button aria-label="清空搜索" onClick={() => { setQuery(""); setVisible(24); }}><X size={15}/></button>}</label><div className="timeline-selects"><select aria-label="按地区筛选" value={area} onChange={e => { setArea(e.target.value); setVisible(24); }}><option value="all">全部地区</option>{overview.areas.map(a => <option value={a} key={a}>{a}</option>)}</select><select aria-label="按事件类型筛选" value={category} onChange={e => { setCategory(e.target.value); setVisible(24); }}><option value="all">全部类型</option>{overview.categories.map(c => <option value={c} key={c}>{c}</option>)}</select><select aria-label="按起始年份筛选" value={year} onChange={e => { setYear(e.target.value); setVisible(24); }}><option value="all">起始年份</option>{overview.years.map(y => <option value={y} key={y}>{y}年</option>)}</select></div></div>
           <div className="timeline-result"><span role="status">{filtered ? `找到 ${entries.length} 个条目` : "循时间排列，从近代开端读起"}</span>{filtered && <button onClick={clear}><X size={12}/>重置筛选</button>}<span className="chronology-order">由早至晚 <ArrowDown size={12}/></span></div>
-          <TimelinePlayer key={JSON.stringify([query, period, category, year, area])} entries={entries} />
+          <TimelinePlayer key={JSON.stringify([query, period, category, year, area])} entries={entries} allEntries={allEntries} />
           <div className="timeline-years">{years.map(y => <div className="timeline-year" key={y} id={`year-${y}`}><div className="timeline-year-label"><span>{y}</span><small>年</small></div><ol>{shown.filter(e => e.start_date.startsWith(y)).map(e => <li className="timeline-event" id={`event-${e.id}`} key={e.id}><span className="timeline-dot"/><div className="event-dateline"><time dateTime={e.start_date}>{e.date_label}</time>{e.date_precision === "year" ? <span>{/[春夏秋冬]/.test(e.date_label) ? "按季节记载" : "按年记载"}</span> : e.date_precision === "month" ? <span>按月记载</span> : null}</div><h3>{e.display_name}</h3><div className="event-context"><span>{e.category}</span><i/>{e.region}{e.parent_name && <span className="event-parent"><i/>{e.parent_name}</span>}</div></li>)}</ol></div>)}</div>
           {!entries.length && <div className="timeline-empty"><Search size={28}/><h3>当前筛选下暂无条目</h3><p>可以换一个名称、年份或年代再看看。</p><button className="text-button" onClick={clear}>查看当前全部收录 <ArrowRight size={14}/></button></div>}
           {visible < entries.length && <button ref={moreButton} className="timeline-more" onClick={() => setVisible(n => Math.min(n + 24, entries.length))}>继续阅读 <span>还有 {entries.length - visible} 个条目</span><ChevronDown size={16}/></button>}

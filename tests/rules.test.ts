@@ -9,6 +9,30 @@ import { businessDayAt, nextDayResetAt, normalSearch } from "../lib/rules.ts";
 import { readCatalog, filterCatalog, catalogOverview, CATALOG_RELEASE } from "../lib/catalog.ts";
 import { allowedPublicOrigin, apiPreflight, withPublicCors } from "../lib/public-api.ts";
 import { fetchJson, ConnectionError } from "../lib/http-client.ts";
+import { buildFeedbackUrl, type FeedbackDraft } from "../lib/feedback.ts";
+import { readBoundedJson } from "../lib/request-body.ts";
+
+test("史实反馈保留多来源并且只生成固定GitHub目标", () => {
+  const draft: FeedbackDraft = { kind: "史实修改", title: "日期 & 名称 #修订", date: "1945年9月9日", detail: "请核对日期口径。", sourceOne: "https://www.chnmuseum.cn/example", sourceTwo: "https://www.gov.cn/example" };
+  const url = new URL(buildFeedbackUrl(draft));
+  assert.equal(url.origin, "https://github.com");
+  assert.equal(url.pathname, "/hwxc129/shanhe-changming/issues/new");
+  assert.equal(url.searchParams.get("title"), "[史实修改] 日期 & 名称 #修订");
+  assert.ok(url.searchParams.get("body")?.includes(draft.sourceTwo));
+  assert.throws(() => buildFeedbackUrl({ ...draft, sourceTwo: "" }));
+  assert.throws(() => buildFeedbackUrl({ ...draft, sourceOne: "javascript:alert(1)" }));
+  assert.throws(() => buildFeedbackUrl({ ...draft, sourceOne: "https://user:password@example.com" }));
+  assert.doesNotThrow(() => buildFeedbackUrl({ ...draft, kind: "网站意见", sourceOne: "", sourceTwo: "" }));
+});
+
+test("JSON请求按实际流字节限长，拒绝未知长度和多字节超限", async () => {
+  const make = (body: string, headers = {}) => new Request("https://example.invalid", { method: "POST", headers: { "Content-Type": "application/json", ...headers }, body });
+  assert.deepEqual(await readBoundedJson(make('{"text":"铭记"}')), { text: "铭记" });
+  await assert.rejects(readBoundedJson(make('"' + "中".repeat(9000) + '"')), { status: 413 });
+  await assert.rejects(readBoundedJson(make('"' + "a".repeat(26000) + '"', { "Content-Length": "26002" })), { status: 413 });
+  await assert.rejects(readBoundedJson(make("{")), { status: 400 });
+  await assert.rejects(readBoundedJson(new Request("https://example.invalid", { method: "POST", body: "{}" })), { status: 415 });
+});
 
 test("业务日期在北京时间零点切换，不受服务器时区影响",()=>{
   assert.equal(businessDayAt(Date.parse("2026-11-03T15:59:59.999Z")),"2026-11-03");
@@ -32,6 +56,13 @@ test("节气按年度日期触发，国家公祭日使用纪念主题", () => {
   assert.equal(chinaDay(Date.parse("2026-04-05T12:00:00+08:00")).theme?.id, "qingming");
   assert.equal(chinaDay(Date.parse("2026-12-22T12:00:00+08:00")).theme?.id, "solstice");
   assert.equal(chinaDay(Date.parse("2026-12-13T12:00:00+08:00")).theme?.id, "national-memorial");
+});
+test("同日节庆完整保留，国庆与纪念日决定首页配色", () => {
+  const shared = chinaDay(Date.parse("2020-10-01T12:00:00+08:00"));
+  assert.deepEqual(shared.festivals.map(item => item.id), ["mid-autumn", "national-day"]);
+  assert.equal(shared.theme?.id, "national-day");
+  const newYear = chinaDay(Date.parse("2031-01-01T12:00:00+08:00"));
+  assert.deepEqual(newYear.festivals.map(item => item.id), ["new-year", "laba"]);
 });
 test("简繁别名检索与空格归一",()=>{
   assert.equal(normalSearch("盧溝橋事變"),normalSearch("卢沟桥事变"));
