@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowRight, Check, Flame } from "lucide-react";
+import { ArrowDown, ArrowRight, Check, Flame, Play } from "lucide-react";
 import HistoryTimeline from "./history-timeline";
 import { request, post, siteHref, backupSite } from "../lib/api-client";
 
@@ -69,6 +69,7 @@ export default function Memorial({ initialStats }: { initialStats: Stats | null 
           <div className="candle-action"><button className={`light-button ${isLit ? "completed" : ""}`} onClick={light} disabled={busy || !me?.ready || !me.can_light}>{isLit ? <Check size={18}/> : <Flame size={19} strokeWidth={1.5}/>}<span>{buttonLabel}</span>{!isLit && <ArrowRight size={17}/>}</button><span className="action-caption">每日一烛，寄托思念</span></div>
           <p className={`candle-feedback ${error ? "has-error" : ""}`} role="status" aria-live="polite">{error || notice || (isLit ? "你的敬意已被记录，明日可再次点亮。" : "无需登录 · 同一浏览器每天一次")}{error && <><button className="text-button" onClick={() => { void prepare(); void refreshStats(); }}>重新连接</button><a className="text-button" href={backupSite} target="_blank" rel="noopener noreferrer">备用站点</a></>}</p>
           <div className="memorial-stats" aria-label="点烛统计"><div><span className="stat-value">{stats ? stats.today_count.toLocaleString("zh-CN") : "—"}</span><span>今日点亮<span className="stat-unit"> / 次</span></span></div><div><span className="stat-value">{stats ? stats.total_count.toLocaleString("zh-CN") : "—"}</span><span>累计点亮<span className="stat-unit"> / 次</span></span></div><p>{import.meta.env.DEV ? "本地预览数据，与公网独立。" : "每一份敬意，都值得被记得。"}</p></div>
+          <a className="hero-player-link" href="#timeline-player"><Play size={14} aria-hidden="true" /> 历史展映 <ArrowRight size={14} aria-hidden="true" /></a>
         </div><div className="hero-art"><Candle lit={!!isLit}/><span className="art-caption"><span/> 一烛微光，山河共念 <span/></span></div></div>
         <a className="scroll-note" href="#journey"><span>向下 · 循时铭记</span><ArrowDown size={14}/></a>
         <span className="hero-coordinate">以铭记，致敬不朽。</span>
